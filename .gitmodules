@@ -1,0 +1,6 @@
+[submodule "Charts"]
+	path = Charts
+	url = ./Charts/
+[submodule "SQLite.swift"]
+	path = SQLite.swift
+	url = ./SQLite.swift/
