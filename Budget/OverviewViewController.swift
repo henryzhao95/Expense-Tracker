@@ -8,14 +8,19 @@
 
 import UIKit
 import SQLite
+import Charts
 
-class OverviewViewController: UITableViewController {
+class OverviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ChartViewDelegate {
     
     struct ExpenseCategory {
         var name: String
         var sum: Double
     }
     
+
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var chartView: LineChartView!
+    let lcf = LineChartFormatter()
     var data = [ExpenseCategory]()
     
     /*
@@ -42,8 +47,24 @@ class OverviewViewController: UITableViewController {
         
         dateBarButton = UIBarButtonItem(title: "", style: .plain, target: self, action: #selector(toggleDateFrame))
         
+        tableView.delegate = self
+        tableView.dataSource = self
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableViewAutomaticDimension
+        
+        chartView.delegate = self
+        chartView.chartDescription?.text = ""
+        chartView.leftAxis.enabled = false
+        chartView.rightAxis.drawGridLinesEnabled = false
+        chartView.rightAxis.setLabelCount(5, force: true)
+        chartView.rightAxis.axisMinimum = 0
+        chartView.xAxis.drawGridLinesEnabled = false
+        chartView.xAxis.setLabelCount(5, force: true)
+        chartView.xAxis.labelPosition = .bottom
+        chartView.xAxis.valueFormatter = lcf
+        // chartView.xAxis.wordWrapEnabled = true
+        chartView.drawBordersEnabled = false
+        chartView.dragEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,15 +147,96 @@ class OverviewViewController: UITableViewController {
             let sum = try! db?.scalar((table?.select(cost.total).filter(category == Expression<String>(name)).filter(date >= fromDate))!)
             data.append(ExpenseCategory(name: name, sum: sum!))
         }
+        setChartData()
+    }
+    
+    // MARK: LineChartView
+    
+    func setChartData() {
+        
+        var dates: [String] = []
+        var expenseTotal: [Double] = []
+
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd"
+        var currDate: Date! = df.date(from: fromDate)
+        let today = Date()
+        let cal = Calendar.current
+        
+        var dateFrequencyComponent = DateComponents()
+        switch dateFrames.first!.0 {
+        case NSLocalizedString("30 Days", comment: "30 Days"):
+            dateFrequencyComponent.day = 1
+        default:
+            dateFrequencyComponent.day = 7
+        }
+        
+        while currDate <= today {
+            dates.append(df.string(from: currDate))
+            expenseTotal.append(0)
+            currDate = cal.date(byAdding: dateFrequencyComponent, to: currDate)
+        }
+        
+        let filteredTable = table?.order(date.asc, id.asc).filter(date >= fromDate)
+        let items = try! db?.prepare(filteredTable!)
+        
+        var dateIndex = 0
+        for item in items! {
+            while dateIndex < dates.count-1 && df.date(from: dates[dateIndex+1])! <= df.date(from: item[date])! {
+                dateIndex += 1
+            }
+            expenseTotal[dateIndex] += item[cost]
+        }
+        
+        lcf.data = dates
+        
+        var chartDataEntries = [ChartDataEntry]()
+        // TODO: x axis dates
+        for i in 0 ..< dates.count {
+            let x = XAxis()
+            x.valueFormatter = lcf
+            chartDataEntries.append(ChartDataEntry(x: Double(i), y: expenseTotal[i]))
+        }
+        
+        let chartDataSet = LineChartDataSet(values: chartDataEntries, label: "Daily Expenses")
+        chartDataSet.colors = [UIColor(red: 224/255, green: 39/255, blue: 68/255, alpha: 1)]
+        chartDataSet.drawCirclesEnabled = false
+        chartDataSet.drawValuesEnabled = false
+        
+        var chartDataSets = [LineChartDataSet]()
+        chartDataSets.append(chartDataSet)
+
+        // Hardcoded
+        var target: Double
+        switch dateFrames.first!.0 {
+        case NSLocalizedString("30 Days", comment: "30 Days"):
+            target = 15.78
+        default:
+            target = 110.76
+        }
+        let ll = ChartLimitLine(limit: target, label: "Target")
+        ll.drawLabelEnabled = false
+        chartView.rightAxis.removeAllLimitLines()
+        chartView.rightAxis.addLimitLine(ll)
+        
+        chartView.data = LineChartData(dataSets: chartDataSets)
+        chartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .easeInElastic)
+    }
+    
+    public class LineChartFormatter: NSObject, IAxisValueFormatter {
+        var data: [String]!
+        public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
+            return data[Int(value)]
+        }
     }
     
     // MARK: UITableView
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count + 1 // + 1 for footer total
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Table view cells are reused and should be dequeued using a cell identifier.
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExpenseCategoryCell", for: indexPath)
         let nf = NumberFormatter()
@@ -156,7 +258,7 @@ class OverviewViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
