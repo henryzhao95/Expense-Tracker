@@ -62,7 +62,6 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         chartView.xAxis.setLabelCount(5, force: true)
         chartView.xAxis.labelPosition = .bottom
         chartView.xAxis.valueFormatter = lcf
-        // chartView.xAxis.wordWrapEnabled = true
         chartView.drawBordersEnabled = false
         chartView.dragEnabled = false
     }
@@ -155,50 +154,70 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     func setChartData() {
         
         var dates: [String] = []
-        var expenseTotal: [Double] = []
+        var expenseMovAvg: [Double] = []
 
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd"
-        var currDate: Date! = df.date(from: fromDate)
+        
         let today = Date()
         let cal = Calendar.current
-        
-        var dateFrequencyComponent = DateComponents()
+        var dateComponent = DateComponents()
+        var currDate = df.date(from: fromDate)!
+
+        var movAvgDays: Int
         switch dateFrames.first!.0 {
         case NSLocalizedString("30 Days", comment: "30 Days"):
-            dateFrequencyComponent.day = 1
+            movAvgDays = 7
         default:
-            dateFrequencyComponent.day = 7
+            movAvgDays = 30
         }
+        dateComponent.day = -movAvgDays
+        currDate = cal.date(byAdding: dateComponent, to: currDate)!
+        let movAvgFromDate = df.string(from: currDate)
         
+        dateComponent.day = 1
         while currDate <= today {
             dates.append(df.string(from: currDate))
-            expenseTotal.append(0)
-            currDate = cal.date(byAdding: dateFrequencyComponent, to: currDate)
+            expenseMovAvg.append(0)
+            currDate = cal.date(byAdding: dateComponent, to: currDate)!
         }
         
-        let filteredTable = table?.order(date.asc, id.asc).filter(date >= fromDate)
+        let filteredTable = table?.order(date.asc, id.asc).filter(date >= movAvgFromDate)
         let items = try! db?.prepare(filteredTable!)
-        
-        var dateIndex = 0
+        var index = 0
         for item in items! {
-            while dateIndex < dates.count-1 && df.date(from: dates[dateIndex+1])! <= df.date(from: item[date])! {
-                dateIndex += 1
+            while df.date(from: item[date])! != df.date(from: dates[index])! {
+                index += 1
             }
-            expenseTotal[dateIndex] += item[cost]
+            expenseMovAvg[index] += item[cost]
         }
+        
+        var movAvgTotal = 0.0
+        var movAvgData = [Double]()
+        index = 0
+        for day in expenseMovAvg {
+            if movAvgData.count == movAvgDays {
+                movAvgTotal -= movAvgData.removeFirst()
+            }
+            movAvgTotal += day
+            movAvgData.append(day)
+            expenseMovAvg[index] = movAvgTotal
+            index += 1
+        }
+        dates.removeFirst(movAvgDays-1)
+        expenseMovAvg.removeFirst(movAvgDays-1)
         
         lcf.data = dates
         
         var chartDataEntries = [ChartDataEntry]()
-        // TODO: x axis dates
+        // TODO: x axis dates (like January 17th rather than 2000-01-17)
         for i in 0 ..< dates.count {
             let x = XAxis()
             x.valueFormatter = lcf
-            chartDataEntries.append(ChartDataEntry(x: Double(i), y: expenseTotal[i]))
+            chartDataEntries.append(ChartDataEntry(x: Double(i), y: expenseMovAvg[i]))
         }
         
-        let chartDataSet = LineChartDataSet(values: chartDataEntries, label: "Daily Expenses")
+        let chartDataSet = LineChartDataSet(values: chartDataEntries, label: "Moving Average")
         chartDataSet.colors = [UIColor(red: 224/255, green: 39/255, blue: 68/255, alpha: 1)]
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.drawValuesEnabled = false
@@ -210,9 +229,9 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         var target: Double
         switch dateFrames.first!.0 {
         case NSLocalizedString("30 Days", comment: "30 Days"):
-            target = 15.78
+            target = 105
         default:
-            target = 110.76
+            target = 420
         }
         let ll = ChartLimitLine(limit: target, label: "Target")
         ll.drawLabelEnabled = false
@@ -220,7 +239,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         chartView.rightAxis.addLimitLine(ll)
         
         chartView.data = LineChartData(dataSets: chartDataSets)
-        chartView.animate(xAxisDuration: 1.0, yAxisDuration: 1.0, easingOption: .easeInElastic)
+        chartView.animate(xAxisDuration: 0.3, yAxisDuration: 0.3, easingOption: .easeInCubic)
     }
     
     public class LineChartFormatter: NSObject, IAxisValueFormatter {
