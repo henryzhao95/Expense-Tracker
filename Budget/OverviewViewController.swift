@@ -102,10 +102,10 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         let cal = Calendar.current
         let components = (cal as NSCalendar).components([.day, .month, .year], from: date)
         
-        fromDate = df.string(from: date.addingTimeInterval(-30*24*60*60))
+        fromDate = df.string(from: date.addingTimeInterval(-29*24*60*60)) // + today
         dateFrames.append(("30 " + NSLocalizedString("Days", comment: "Days"), fromDate))
         
-        let tempDate = df.string(from: date.addingTimeInterval(-90*24*60*60))
+        let tempDate = df.string(from: date.addingTimeInterval(-89*24*60*60)) // + today
         dateFrames.append(("90 " + NSLocalizedString("Days", comment: "Days"), tempDate))
         
         var fyStart = components.year!
