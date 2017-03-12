@@ -168,10 +168,12 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         switch dateFrames.first!.0 {
         case NSLocalizedString("30 Days", comment: "30 Days"):
             movAvgDays = 7
+        case NSLocalizedString("90 Days", comment: "90 Days"):
+            movAvgDays = 14
         default:
             movAvgDays = 30
         }
-        dateComponent.day = -movAvgDays
+        dateComponent.day = -movAvgDays + 1
         currDate = cal.date(byAdding: dateComponent, to: currDate)!
         let movAvgFromDate = df.string(from: currDate)
         
@@ -206,7 +208,6 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         }
         dates.removeFirst(movAvgDays-1)
         expenseMovAvg.removeFirst(movAvgDays-1)
-        
         lcf.data = dates
         
         var chartDataEntries = [ChartDataEntry]()
@@ -221,6 +222,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         chartDataSet.colors = [UIColor(red: 224/255, green: 39/255, blue: 68/255, alpha: 1)]
         chartDataSet.drawCirclesEnabled = false
         chartDataSet.drawValuesEnabled = false
+        chartDataSet.axisDependency = YAxis.AxisDependency.right
         
         var chartDataSets = [LineChartDataSet]()
         chartDataSets.append(chartDataSet)
@@ -229,7 +231,9 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         var target: Double
         switch dateFrames.first!.0 {
         case NSLocalizedString("30 Days", comment: "30 Days"):
-            target = 105
+            target = 98
+        case NSLocalizedString("90 Days", comment: "90 Days"):
+            target = 196
         default:
             target = 420
         }
