@@ -17,7 +17,6 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         var sum: Double
     }
     
-
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var chartView: LineChartView!
     let lcf = LineChartFormatter()
@@ -141,9 +140,12 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         data.removeAll()
         let categoryQuery = table?.select(distinct: category).order(category.asc)
         let categoryResult = try! db?.prepare(categoryQuery!)
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd" // for SQLite call
+        let today = df.string(from: Date())
         for c in categoryResult! {
             let name = c[category]
-            let sum = try! db?.scalar((table?.select(cost.total).filter(category == Expression<String>(name)).filter(date >= fromDate))!)
+            let sum = try! db?.scalar((table?.select(cost.total).filter(category == Expression<String>(name)).filter(date >= fromDate).filter(date <= today))!)
             data.append(ExpenseCategory(name: name, sum: sum!))
         }
         setChartData()
@@ -184,7 +186,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
             currDate = cal.date(byAdding: dateComponent, to: currDate)!
         }
         
-        let filteredTable = table?.order(date.asc, id.asc).filter(date >= movAvgFromDate)
+        let filteredTable = table?.order(date.asc, id.asc).filter(date >= movAvgFromDate).filter(date <= df.string(from: today))
         let items = try! db?.prepare(filteredTable!)
         var index = 0
         for item in items! {
