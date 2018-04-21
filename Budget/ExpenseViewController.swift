@@ -226,9 +226,9 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func buttonBack(_ sender: UIButton) {
         // To do: speed up delete when holding down button
-        if costLabel.text?.characters.count > 0 {
+        if costLabel.text?.count > 0 {
             costLabel.text = String(costLabel.text!.characters.dropLast())
-            if costLabel.text?.characters.count < 1 || firstEdit {
+            if costLabel.text?.count < 1 || firstEdit {
                 saveButton.isEnabled = false
             }
             if firstEdit {
@@ -372,7 +372,7 @@ extension ExpenseViewController: UICollectionViewDelegate {
             responder = responder.next!!
         }
         let alert = responder as! UIAlertController
-        if field.text?.characters.count > 0 {
+        if field.text?.count > 0 {
             alert.actions[1].isEnabled = true
         } else {
             alert.actions[1].isEnabled = false

@@ -286,6 +286,8 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
             cell.detailTextLabel?.text = nf.string(from: NSNumber(value: data[indexPath.row].sum as Double))
         }
         
+        cell.imageView?.image = UIImage(named: cell.textLabel!.text!.lowercased())
+        
         return cell
     }
     

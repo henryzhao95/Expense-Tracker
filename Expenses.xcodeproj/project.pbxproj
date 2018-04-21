@@ -18,7 +18,6 @@
 		BA06E6651E3C2F06007E4F81 /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */; };
 		BA06E6661E3C2F06007E4F81 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */; };
 		BA06E6671E3C2F06007E4F81 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */; };
-		BA06E6691E3C2F28007E4F81 /* PixelLove License.txt in Resources */ = {isa = PBXBuildFile; fileRef = BA06E6681E3C2F28007E4F81 /* PixelLove License.txt */; };
 		BA06E6831E3C30B5007E4F81 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA06E6751E3C2FB9007E4F81 /* SQLite.framework */; };
 		BA06E6851E3C30DF007E4F81 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA06E6751E3C2FB9007E4F81 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BA06E69A1E3C3797007E4F81 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */; };
@@ -90,13 +89,6 @@
 			remoteGlobalIDString = 06165F241D8110E600722320;
 			remoteInfo = Charts;
 		};
-		BA830F611E3C6AA3008F4404 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06B120D51D811E6200D14B02;
-			remoteInfo = ChartsRealm;
-		};
 		BA830F631E3C6AA3008F4404 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
@@ -108,7 +100,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 06165F231D8110E600722320;
+			remoteGlobalIDString = A58A4ED274A941CA248EA921;
 			remoteInfo = Charts;
 		};
 /* End PBXContainerItemProxy section */
@@ -129,7 +121,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		BA06E6431E3C2EAF007E4F81 /* Budget.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Budget.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA06E6431E3C2EAF007E4F81 /* Expenses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expenses.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA06E6461E3C2EAF007E4F81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BA06E64D1E3C2EAF007E4F81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA06E64F1E3C2EAF007E4F81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -142,7 +134,6 @@
 		BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
 		BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
 		BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
-		BA06E6681E3C2F28007E4F81 /* PixelLove License.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "PixelLove License.txt"; sourceTree = "<group>"; };
 		BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
 		BA06E6941E3C3549007E4F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-Hans.lproj"; sourceTree = "<group>"; };
@@ -176,7 +167,7 @@
 		BA06E6441E3C2EAF007E4F81 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BA06E6431E3C2EAF007E4F81 /* Budget.app */,
+				BA06E6431E3C2EAF007E4F81 /* Expenses.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -192,7 +183,6 @@
 				BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */,
 				BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */,
 				BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */,
-				BA06E6681E3C2F28007E4F81 /* PixelLove License.txt */,
 				BA06E64C1E3C2EAF007E4F81 /* Main.storyboard */,
 				BA06E64F1E3C2EAF007E4F81 /* Assets.xcassets */,
 				BA06E6511E3C2EAF007E4F81 /* LaunchScreen.storyboard */,
@@ -220,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				BA830F601E3C6AA3008F4404 /* Charts.framework */,
-				BA830F621E3C6AA3008F4404 /* ChartsRealm.framework */,
 				BA830F641E3C6AA3008F4404 /* ChartsTests.xctest */,
 			);
 			name = Products;
@@ -229,9 +218,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BA06E6421E3C2EAF007E4F81 /* Budget */ = {
+		BA06E6421E3C2EAF007E4F81 /* Expenses */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BA06E6571E3C2EAF007E4F81 /* Build configuration list for PBXNativeTarget "Budget" */;
+			buildConfigurationList = BA06E6571E3C2EAF007E4F81 /* Build configuration list for PBXNativeTarget "Expenses" */;
 			buildPhases = (
 				BA06E63F1E3C2EAF007E4F81 /* Sources */,
 				BA06E6401E3C2EAF007E4F81 /* Frameworks */,
@@ -244,9 +233,9 @@
 				BA06E6871E3C30DF007E4F81 /* PBXTargetDependency */,
 				BA830F681E3C6AE2008F4404 /* PBXTargetDependency */,
 			);
-			name = Budget;
+			name = Expenses;
 			productName = Budget;
-			productReference = BA06E6431E3C2EAF007E4F81 /* Budget.app */;
+			productReference = BA06E6431E3C2EAF007E4F81 /* Expenses.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -266,7 +255,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BA06E63E1E3C2EAF007E4F81 /* Build configuration list for PBXProject "Budget" */;
+			buildConfigurationList = BA06E63E1E3C2EAF007E4F81 /* Build configuration list for PBXProject "Expenses" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -289,7 +278,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				BA06E6421E3C2EAF007E4F81 /* Budget */,
+				BA06E6421E3C2EAF007E4F81 /* Expenses */,
 			);
 		};
 /* End PBXProject section */
@@ -351,13 +340,6 @@
 			remoteRef = BA830F5F1E3C6AA3008F4404 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		BA830F621E3C6AA3008F4404 /* ChartsRealm.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ChartsRealm.framework;
-			remoteRef = BA830F611E3C6AA3008F4404 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		BA830F641E3C6AA3008F4404 /* ChartsTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -374,7 +356,6 @@
 			files = (
 				BA06E6531E3C2EAF007E4F81 /* LaunchScreen.storyboard in Resources */,
 				BA06E6501E3C2EAF007E4F81 /* Assets.xcassets in Resources */,
-				BA06E6691E3C2F28007E4F81 /* PixelLove License.txt in Resources */,
 				BA06E69A1E3C3797007E4F81 /* zh-Hans.lproj in Resources */,
 				BA06E64E1E3C2EAF007E4F81 /* Main.storyboard in Resources */,
 			);
@@ -567,7 +548,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BA06E63E1E3C2EAF007E4F81 /* Build configuration list for PBXProject "Budget" */ = {
+		BA06E63E1E3C2EAF007E4F81 /* Build configuration list for PBXProject "Expenses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BA06E6551E3C2EAF007E4F81 /* Debug */,
@@ -576,7 +557,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BA06E6571E3C2EAF007E4F81 /* Build configuration list for PBXNativeTarget "Budget" */ = {
+		BA06E6571E3C2EAF007E4F81 /* Build configuration list for PBXNativeTarget "Expenses" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BA06E6581E3C2EAF007E4F81 /* Debug */,

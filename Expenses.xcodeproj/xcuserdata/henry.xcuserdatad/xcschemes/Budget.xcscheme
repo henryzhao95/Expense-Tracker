@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BA06E6421E3C2EAF007E4F81"
-               BuildableName = "Budget.app"
-               BlueprintName = "Budget"
-               ReferencedContainer = "container:Budget.xcodeproj">
+               BuildableName = "Expenses.app"
+               BlueprintName = "Expenses"
+               ReferencedContainer = "container:Expenses.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BA06E6421E3C2EAF007E4F81"
-            BuildableName = "Budget.app"
-            BlueprintName = "Budget"
-            ReferencedContainer = "container:Budget.xcodeproj">
+            BuildableName = "Expenses.app"
+            BlueprintName = "Expenses"
+            ReferencedContainer = "container:Expenses.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -56,9 +56,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BA06E6421E3C2EAF007E4F81"
-            BuildableName = "Budget.app"
-            BlueprintName = "Budget"
-            ReferencedContainer = "container:Budget.xcodeproj">
+            BuildableName = "Expenses.app"
+            BlueprintName = "Expenses"
+            ReferencedContainer = "container:Expenses.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -75,9 +75,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BA06E6421E3C2EAF007E4F81"
-            BuildableName = "Budget.app"
-            BlueprintName = "Budget"
-            ReferencedContainer = "container:Budget.xcodeproj">
+            BuildableName = "Expenses.app"
+            BlueprintName = "Expenses"
+            ReferencedContainer = "container:Expenses.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
