@@ -160,7 +160,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         cell.id = e.id
         cell.categoryLabel.text = e.category
         cell.setCost(e.cost)
-        cell.descLabel.text = e.desc?.characters.count > 0 ? e.desc : nil
+        cell.descLabel.text = e.desc?.count > 0 ? e.desc : nil
         return cell
     }
     

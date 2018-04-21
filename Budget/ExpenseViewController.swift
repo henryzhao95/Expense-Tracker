@@ -68,6 +68,13 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         if edit {
             categoryView.reloadData() // Force Touch preview has different size
+        } else {
+            /* Not working
+            print(Date())
+            datePicker.date = Date() // in case date has changed since cached
+            datePicker.reloadInputViews()
+            print(datePicker.date)
+             */
         }
     }
     

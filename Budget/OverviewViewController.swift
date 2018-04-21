@@ -102,10 +102,10 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         let components = (cal as NSCalendar).components([.day, .month, .year], from: date)
         
         fromDate = df.string(from: date.addingTimeInterval(-29*24*60*60)) // + today
-        dateFrames.append(("30 " + NSLocalizedString("Days", comment: "Days"), fromDate))
+        dateFrames.append(("28 " + NSLocalizedString("Days", comment: "Days"), fromDate))
         
-        let tempDate = df.string(from: date.addingTimeInterval(-89*24*60*60)) // + today
-        dateFrames.append(("90 " + NSLocalizedString("Days", comment: "Days"), tempDate))
+        let tempDate = df.string(from: date.addingTimeInterval(-90*24*60*60)) // + today
+        dateFrames.append(("91 " + NSLocalizedString("Days", comment: "Days"), tempDate))
         
         var fyStart = components.year!
         if components.month! <= 6 { // 2016-02 is in 2015-16
@@ -138,7 +138,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     // Re-query database
     func reloadData() {
         data.removeAll()
-        let categoryQuery = table?.select(distinct: category).order(category.asc)
+        let categoryQuery = table?.filter(date >= fromDate!).select(distinct: category).order(category.asc)
         let categoryResult = try! db?.prepare(categoryQuery!)
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd" // for SQLite call
@@ -167,14 +167,17 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         var currDate = df.date(from: fromDate)!
 
         var movAvgDays: Int
+        /*
         switch dateFrames.first!.0 {
-        case NSLocalizedString("30 Days", comment: "30 Days"):
-            movAvgDays = 7
-        case NSLocalizedString("90 Days", comment: "90 Days"):
+        case NSLocalizedString("28 Days", comment: "28 Days"):
+            movAvgDays = 14
+        case NSLocalizedString("91 Days", comment: "91 Days"):
             movAvgDays = 14
         default:
-            movAvgDays = 30
+            movAvgDays = 28
         }
+ */
+        movAvgDays = 14
         dateComponent.day = -movAvgDays + 1
         currDate = cal.date(byAdding: dateComponent, to: currDate)!
         let movAvgFromDate = df.string(from: currDate)
@@ -231,14 +234,17 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
 
         // Hardcoded
         var target: Double
+        /*
         switch dateFrames.first!.0 {
-        case NSLocalizedString("30 Days", comment: "30 Days"):
-            target = 98
-        case NSLocalizedString("90 Days", comment: "90 Days"):
-            target = 196
+        case NSLocalizedString("28 Days", comment: "28 Days"):
+            target = 250 // 14 day moving average
+        case NSLocalizedString("91 Days", comment: "91 Days"):
+            target = 250 // 14 day moving average
         default:
-            target = 420
+            target = 500
         }
+ */
+        target = 410
         let ll = ChartLimitLine(limit: target, label: "Target")
         ll.drawLabelEnabled = false
         chartView.rightAxis.removeAllLimitLines()
