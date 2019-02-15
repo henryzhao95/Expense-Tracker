@@ -21,6 +21,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var chartView: LineChartView!
     let lcf = LineChartFormatter()
     var data = [ExpenseCategory]()
+    var categoryToChart: String? = nil;
     
     /*
      Time frame for the Overview
@@ -124,7 +125,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         return categoryTitles
     }
     
-    @objc func toggleDateFrame() {
+    func toggleDateFrame() {
         dateFrames.append(dateFrames.removeFirst())
         
         dateBarButton.title = dateFrames.first?.0
@@ -154,104 +155,68 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: LineChartView
     
     func setChartData() {
+        var dates: [Date] = []
+        var actualRunningTotal: [Double] = []
+        var targetRunningTotal: [Double] = []
         
-        var dates: [String] = []
-        var expenseMovAvg: [Double] = []
-
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd"
+        let df = ISO8601DateFormatter()
+        df.formatOptions = [.withFullDate]
+        let today = df.string(from: Date())
+        let filteredTable = table?
+            .order(date.asc, id.asc)
+            .filter(date >= fromDate)
+            .filter(date <= today)
+        let expenses = try! db?.prepare(filteredTable!)
         
-        let today = Date()
-        let cal = Calendar.current
-        var dateComponent = DateComponents()
-        var currDate = df.date(from: fromDate)!
-
-        var movAvgDays: Int
-        /*
-        switch dateFrames.first!.0 {
-        case NSLocalizedString("28 Days", comment: "28 Days"):
-            movAvgDays = 14
-        case NSLocalizedString("91 Days", comment: "91 Days"):
-            movAvgDays = 14
-        default:
-            movAvgDays = 28
-        }
- */
-        movAvgDays = 14
-        dateComponent.day = -movAvgDays + 1
-        currDate = cal.date(byAdding: dateComponent, to: currDate)!
-        let movAvgFromDate = df.string(from: currDate)
+        // Hardcoded
+        let dailyTarget = 20.712
         
-        dateComponent.day = 1
-        while currDate <= today {
-            dates.append(df.string(from: currDate))
-            expenseMovAvg.append(0)
-            currDate = cal.date(byAdding: dateComponent, to: currDate)!
-        }
+        let calendar = Calendar.current
+        dates.append(df.date(from: fromDate)!)
+        actualRunningTotal.append(0)
+        targetRunningTotal.append(0)
         
-        let filteredTable = table?.order(date.asc, id.asc).filter(date >= movAvgFromDate).filter(date <= df.string(from: today))
-        let items = try! db?.prepare(filteredTable!)
-        var index = 0
-        for item in items! {
-            while df.date(from: item[date])! != df.date(from: dates[index])! {
-                index += 1
+        for expense in expenses! {
+            let expenseDate = df.date(from: expense[date])!
+            while dates.last! < expenseDate {
+                dates.append(calendar.date(byAdding: .day, value: 1, to: dates.last!)!)
+                actualRunningTotal.append(actualRunningTotal.last ?? 0)
+                targetRunningTotal.append((targetRunningTotal.last != nil) ? targetRunningTotal.last! + dailyTarget : dailyTarget)
             }
-            expenseMovAvg[index] += item[cost]
+            
+            actualRunningTotal[actualRunningTotal.count-1] += expense[cost]
         }
+        lcf.data = dates.map { df.string(from: $0) }
         
-        var movAvgTotal = 0.0
-        var movAvgData = [Double]()
-        index = 0
-        for day in expenseMovAvg {
-            if movAvgData.count == movAvgDays {
-                movAvgTotal -= movAvgData.removeFirst()
-            }
-            movAvgTotal += day
-            movAvgData.append(day)
-            expenseMovAvg[index] = movAvgTotal
-            index += 1
-        }
-        dates.removeFirst(movAvgDays-1)
-        expenseMovAvg.removeFirst(movAvgDays-1)
-        lcf.data = dates
-        
-        var chartDataEntries = [ChartDataEntry]()
+        var spendingChartDataEntries = [ChartDataEntry]()
+        var budgetedChartDataEntries = [ChartDataEntry]()
         // TODO: x axis dates (like January 17th rather than 2000-01-17)
         for i in 0 ..< dates.count {
             let x = XAxis()
             x.valueFormatter = lcf
-            chartDataEntries.append(ChartDataEntry(x: Double(i), y: expenseMovAvg[i]))
+            spendingChartDataEntries.append(ChartDataEntry(x: Double(i), y: actualRunningTotal[i]))
+            budgetedChartDataEntries.append(ChartDataEntry(x: Double(i), y: targetRunningTotal[i]))
         }
         
-        let chartDataSet = LineChartDataSet(values: chartDataEntries, label: "Moving Average")
-        chartDataSet.colors = [UIColor(red: 224/255, green: 39/255, blue: 68/255, alpha: 1)]
-        chartDataSet.drawCirclesEnabled = false
-        chartDataSet.drawValuesEnabled = false
-        chartDataSet.axisDependency = YAxis.AxisDependency.right
+        let spendingChartDataSet = LineChartDataSet(values: spendingChartDataEntries, label: "Cumulative Spending")
+        spendingChartDataSet.colors = [UIColor.red]
+        spendingChartDataSet.fill = Fill.fillWithColor(.red)
+        spendingChartDataSet.drawFilledEnabled = true
+        spendingChartDataSet.drawCirclesEnabled = false
+        spendingChartDataSet.drawValuesEnabled = false
+        
+        let budgetedChartDataSet = LineChartDataSet(values: budgetedChartDataEntries, label: "Budgeted Spending")
+        budgetedChartDataSet.lineWidth = 5;
+        budgetedChartDataSet.colors = [UIColor.purple]
+        budgetedChartDataSet.drawCirclesEnabled = false
+        budgetedChartDataSet.drawValuesEnabled = false
         
         var chartDataSets = [LineChartDataSet]()
-        chartDataSets.append(chartDataSet)
-
-        // Hardcoded
-        var target: Double
-        /*
-        switch dateFrames.first!.0 {
-        case NSLocalizedString("28 Days", comment: "28 Days"):
-            target = 250 // 14 day moving average
-        case NSLocalizedString("91 Days", comment: "91 Days"):
-            target = 250 // 14 day moving average
-        default:
-            target = 500
-        }
- */
-        target = 315
-        let ll = ChartLimitLine(limit: target, label: "Target")
-        ll.drawLabelEnabled = false
-        chartView.rightAxis.removeAllLimitLines()
-        chartView.rightAxis.addLimitLine(ll)
+        chartDataSets.append(spendingChartDataSet)
+        chartDataSets.append(budgetedChartDataSet)
         
         chartView.data = LineChartData(dataSets: chartDataSets)
-        chartView.animate(xAxisDuration: 0.3, yAxisDuration: 0.3, easingOption: .easeInCubic)
+        chartView.animate(xAxisDuration: 0.2, yAxisDuration: 0.2, easingOption: .easeInCubic)
     }
     
     public class LineChartFormatter: NSObject, IAxisValueFormatter {
