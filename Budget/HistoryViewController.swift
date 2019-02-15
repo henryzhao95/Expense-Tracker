@@ -67,8 +67,8 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         // Table
         tableView.estimatedRowHeight = 60 // random height
         tableView.estimatedSectionHeaderHeight = 22
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "header")
     }
     
@@ -89,7 +89,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         NotificationCenter.default.removeObserver(self)
     }
     
-    func contentSizeCategoryDidChange() {
+    @objc func contentSizeCategoryDidChange() {
         tableView.reloadData()
     }
     
@@ -119,7 +119,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         // Called after prepareForSegue() so useless
     }
     
-    func deleteFromDataAndTableIndexPath(_ indexPath: IndexPath, withRowAnimation rowAnimation: UITableViewRowAnimation) {
+    func deleteFromDataAndTableIndexPath(_ indexPath: IndexPath, withRowAnimation rowAnimation: UITableView.RowAnimation) {
         // Delete from [data]
         data[indexPath.section].expenses.remove(at: indexPath.row)
         // Delete table section if applicable
@@ -140,7 +140,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         return data.count
     }
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             let cell = tableView.cellForRow(at: indexPath) as! ExpenseCell
             try! db?.run((table?.filter(id == cell.id).delete())!)
@@ -175,7 +175,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UITableViewAutomaticDimension
+        return UITableView.automaticDimension
     }
     
     // MARK: Data
@@ -225,7 +225,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
 
         if newRows.count > 0 {
             tableView.beginUpdates()
-            tableView.insertSections(IndexSet(integersIn: NSMakeRange(data.count - newSections, newSections).toRange() ?? 0..<0), with: .none)
+            tableView.insertSections(IndexSet(integersIn: (data.count - newSections)..<newSections), with: .none)
             tableView.insertRows(at: newRows, with: .none)
             dbOffset += newRows.count
             tableView.endUpdates()
@@ -258,7 +258,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         }
     }
     
-    func insertIntoDataAndTableExpense(_ e: Expense, withRowAnimation rowAnimation: UITableViewRowAnimation) -> IndexPath {
+    func insertIntoDataAndTableExpense(_ e: Expense, withRowAnimation rowAnimation: UITableView.RowAnimation) -> IndexPath {
         var sectionNumber = 0
         let currDate = e.date
         for s in data {

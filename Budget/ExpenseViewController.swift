@@ -100,7 +100,7 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let tabBarVC = appDelegate.window!.rootViewController as! UITabBarController
-        delegate = tabBarVC.childViewControllers[2].childViewControllers[0] as! HistoryViewController
+        delegate = tabBarVC.children[2].children[0] as! HistoryViewController
         
         if edit == false {
             newExpense()
@@ -142,7 +142,7 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
         if edit {
             firstEdit = true
             costLabel.text = String(expense.cost)
-            saveButton.setTitle(NSLocalizedString("Update", comment: "Update"), for: UIControlState())
+            saveButton.setTitle(NSLocalizedString("Update", comment: "Update"), for: UIControl.State())
         } else {
             costLabel.text = "" // Don't show 0.00
         }
@@ -170,7 +170,7 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
         dateTextField.inputAccessoryView = toolbar
     }
     
-    func toolbarDone(_ sender: UITextField) {
+    @objc func toolbarDone(_ sender: UITextField) {
         dateTextField.resignFirstResponder()
         df.dateStyle = .long
         dateTextField.text = df.string(from: datePicker.date)
@@ -227,7 +227,7 @@ class ExpenseViewController: UIViewController, UITextFieldDelegate {
     @IBAction func buttonBack(_ sender: UIButton) {
         // To do: speed up delete when holding down button
         if costLabel.text?.count > 0 {
-            costLabel.text = String(costLabel.text!.characters.dropLast())
+            costLabel.text = String(costLabel.text!.dropLast())
             if costLabel.text?.count < 1 || firstEdit {
                 saveButton.isEnabled = false
             }
@@ -277,7 +277,7 @@ extension ExpenseViewController: UICollectionViewDataSource {
             cell.label.text = categories[indexPath.row]
             if cell.label.text == categorySelected {
                 colourCell(cell, selected: true)
-                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionViewScrollPosition()) // First launch
+                collectionView.selectItem(at: indexPath, animated: false, scrollPosition: UICollectionView.ScrollPosition()) // First launch
             } else {
                 colourCell(cell, selected: false)
             }
@@ -346,7 +346,7 @@ extension ExpenseViewController: UICollectionViewDelegate {
                 UIView.animate(withDuration: 0.2, animations: {
                     self.colourCell(cell as! CategoryCell, selected: true)
                 })
-                collectionView.selectItem(at: self.lastSelectedCategory, animated: false, scrollPosition: UICollectionViewScrollPosition())
+                collectionView.selectItem(at: self.lastSelectedCategory, animated: false, scrollPosition: UICollectionView.ScrollPosition())
             }
         }))
         let save = UIAlertAction(title: NSLocalizedString("Add", comment: "Add"), style: .default, handler: { saveAction -> Void in
@@ -365,7 +365,7 @@ extension ExpenseViewController: UICollectionViewDelegate {
         present(alert, animated: true, completion: nil)
     }
     
-    func categoryAlertTextChanged(_ sender: AnyObject) {
+    @objc func categoryAlertTextChanged(_ sender: AnyObject) {
         let field = sender as! UITextField
         var responder = sender
         while !(responder is UIAlertController) {

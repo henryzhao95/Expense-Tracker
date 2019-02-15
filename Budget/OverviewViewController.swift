@@ -49,7 +49,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.delegate = self
         tableView.dataSource = self
         tableView.estimatedRowHeight = 60
-        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.rowHeight = UITableView.automaticDimension
         
         chartView.delegate = self
         chartView.chartDescription?.text = ""
@@ -86,7 +86,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         NotificationCenter.default.removeObserver(self)
     }
     
-    func contentSizeCategoryDidChange() {
+    @objc func contentSizeCategoryDidChange() {
         tableView.reloadData() // adjust row height
     }
     
@@ -124,7 +124,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         return categoryTitles
     }
     
-    func toggleDateFrame() {
+    @objc func toggleDateFrame() {
         dateFrames.append(dateFrames.removeFirst())
         
         dateBarButton.title = dateFrames.first?.0
@@ -244,7 +244,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
             target = 500
         }
  */
-        target = 410
+        target = 315
         let ll = ChartLimitLine(limit: target, label: "Target")
         ll.drawLabelEnabled = false
         chartView.rightAxis.removeAllLimitLines()
