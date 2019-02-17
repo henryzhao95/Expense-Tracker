@@ -8,30 +8,6 @@
 
 import UIKit
 import SQLite
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
-// Consider refactoring the code to use the non-optional operators.
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 class HistoryViewController: UITableViewController, ExpenseViewControllerDelegate {
     
@@ -50,10 +26,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
     
     var selectedPath: IndexPath!
     
-    var dbLoadedBool = false
-    var dbLoaded: Bool {
-        return dbLoadedBool
-    }
+    var dbLoaded = false
     
     // MARK: UIViewController
     
@@ -62,7 +35,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         // Do any additional setup after loading the view, typically from a nib.
         
         loadData()
-        dbLoadedBool = true
+        dbLoaded = true
         
         // Table
         tableView.estimatedRowHeight = 60 // random height
@@ -160,7 +133,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
         cell.id = e.id
         cell.categoryLabel.text = e.category
         cell.setCost(e.cost)
-        cell.descLabel.text = e.desc?.count > 0 ? e.desc : nil
+        cell.descLabel.text = e.desc
         return cell
     }
     
@@ -225,7 +198,7 @@ class HistoryViewController: UITableViewController, ExpenseViewControllerDelegat
 
         if newRows.count > 0 {
             tableView.beginUpdates()
-            tableView.insertSections(IndexSet(integersIn: (data.count - newSections)..<newSections), with: .none)
+            tableView.insertSections(IndexSet(integersIn: (data.count - newSections)..<data.count), with: .none)
             tableView.insertRows(at: newRows, with: .none)
             dbOffset += newRows.count
             tableView.endUpdates()

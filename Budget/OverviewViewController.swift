@@ -139,14 +139,22 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     // Re-query database
     func reloadData() {
         data.removeAll()
-        let categoryQuery = table?.filter(date >= fromDate!).select(distinct: category).order(category.asc)
-        let categoryResult = try! db?.prepare(categoryQuery!)
+        
         let df = DateFormatter()
         df.dateFormat = "yyyy-MM-dd" // for SQLite call
         let today = df.string(from: Date())
+        
+        let categoryQuery = table?
+            .filter(date >= fromDate)
+            .filter(date <= today)
+            .select(cost.sum, category)
+            .group(category)
+            .order(category.asc)
+        
+        let categoryResult = try! db?.prepare(categoryQuery!)
         for c in categoryResult! {
             let name = c[category]
-            let sum = try! db?.scalar((table?.select(cost.total).filter(category == Expression<String>(name)).filter(date >= fromDate).filter(date <= today))!)
+            let sum = c[cost.sum]
             data.append(ExpenseCategory(name: name, sum: sum!))
         }
         setChartData()
