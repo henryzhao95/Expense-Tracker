@@ -29,6 +29,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
      (Month, 2016-02-01)
      */
     var dateFrames = [(String, String)]()
+    var selectedIndex: Int? = nil
     
     // "2016-02-01", used by reloadData() to restrict SQLite query
     var fromDate: String!
@@ -87,7 +88,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc func contentSizeCategoryDidChange() {
+    func contentSizeCategoryDidChange() {
         tableView.reloadData() // adjust row height
     }
     
@@ -163,6 +164,8 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: LineChartView
     
     func setChartData() {
+        let methodStart = NSDate()
+
         var dates: [Date] = []
         var actualRunningTotal: [Double] = []
         var targetRunningTotal: [Double] = []
@@ -171,10 +174,12 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         df.formatOptions = [.withFullDate]
         let today = df.string(from: Date())
         let filteredTable = table?
-            .order(date.asc, id.asc)
+            .select(date, category, cost.sum)
             .filter(date >= fromDate)
             .filter(date <= today)
-        let expenses = try! db?.prepare(filteredTable!)
+            .group(date, category)
+            .order(date.asc)
+      let expenses = try! db?.prepare(filteredTable!)
         
         // Hardcoded
         let dailyTarget = 20.712
@@ -192,7 +197,7 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
                 targetRunningTotal.append((targetRunningTotal.last != nil) ? targetRunningTotal.last! + dailyTarget : dailyTarget)
             }
             
-            actualRunningTotal[actualRunningTotal.count-1] += expense[cost]
+            actualRunningTotal[actualRunningTotal.count-1] += expense[cost.sum]!
         }
         lcf.data = dates.map { df.string(from: $0) }
         
@@ -225,6 +230,10 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
         
         chartView.data = LineChartData(dataSets: chartDataSets)
         chartView.animate(xAxisDuration: 0.2, yAxisDuration: 0.2, easingOption: .easeInCubic)
+        
+        let methodFinish = NSDate()
+        let executionTime = methodFinish.timeIntervalSince(methodStart as Date)
+        print("Execution time: \(executionTime)")
     }
     
     public class LineChartFormatter: NSObject, IAxisValueFormatter {
@@ -265,6 +274,6 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+        selectedIndex = indexPath.first!
     }
 }

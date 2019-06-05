@@ -139,6 +139,7 @@
 		BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-Hans.lproj"; sourceTree = "<group>"; };
 		BA06E69C1E3C37CD007E4F81 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
 		BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = SQLite.swift/../Charts/Charts.xcodeproj; sourceTree = "<group>"; };
+		BAD9B1AE22390AA600362FDE /* Expenses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Expenses.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +158,7 @@
 		BA06E63A1E3C2EAF007E4F81 = {
 			isa = PBXGroup;
 			children = (
+				BAD9B1AE22390AA600362FDE /* Expenses.entitlements */,
 				BA06E6451E3C2EAF007E4F81 /* Budget */,
 				BA06E6441E3C2EAF007E4F81 /* Products */,
 				BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */,
@@ -251,7 +253,11 @@
 					BA06E6421E3C2EAF007E4F81 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 1010;
-						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -260,8 +266,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = BA06E63A1E3C2EAF007E4F81;
 			productRefGroup = BA06E6441E3C2EAF007E4F81 /* Products */;
