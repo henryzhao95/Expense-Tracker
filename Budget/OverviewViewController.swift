@@ -211,14 +211,14 @@ class OverviewViewController: UIViewController, UITableViewDelegate, UITableView
             budgetedChartDataEntries.append(ChartDataEntry(x: Double(i), y: targetRunningTotal[i]))
         }
         
-        let spendingChartDataSet = LineChartDataSet(values: spendingChartDataEntries, label: "Cumulative Spending")
+        let spendingChartDataSet = LineChartDataSet(entries: spendingChartDataEntries, label: "Cumulative Spending")
         spendingChartDataSet.colors = [UIColor.red]
         spendingChartDataSet.fill = Fill.fillWithColor(.red)
         spendingChartDataSet.drawFilledEnabled = true
         spendingChartDataSet.drawCirclesEnabled = false
         spendingChartDataSet.drawValuesEnabled = false
         
-        let budgetedChartDataSet = LineChartDataSet(values: budgetedChartDataEntries, label: "Budgeted Spending")
+        let budgetedChartDataSet = LineChartDataSet(entries: budgetedChartDataEntries, label: "Budgeted Spending")
         budgetedChartDataSet.lineWidth = 5;
         budgetedChartDataSet.colors = [UIColor.purple]
         budgetedChartDataSet.drawCirclesEnabled = false
