@@ -3,107 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BA06E6471E3C2EAF007E4F81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E6461E3C2EAF007E4F81 /* AppDelegate.swift */; };
-		BA06E64E1E3C2EAF007E4F81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA06E64C1E3C2EAF007E4F81 /* Main.storyboard */; };
 		BA06E6501E3C2EAF007E4F81 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA06E64F1E3C2EAF007E4F81 /* Assets.xcassets */; };
 		BA06E6531E3C2EAF007E4F81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA06E6511E3C2EAF007E4F81 /* LaunchScreen.storyboard */; };
-		BA06E6611E3C2F06007E4F81 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65A1E3C2F06007E4F81 /* CategoryCell.swift */; };
 		BA06E6621E3C2F06007E4F81 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65B1E3C2F06007E4F81 /* DatabaseManager.swift */; };
 		BA06E6631E3C2F06007E4F81 /* Expense.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65C1E3C2F06007E4F81 /* Expense.swift */; };
 		BA06E6641E3C2F06007E4F81 /* ExpenseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65D1E3C2F06007E4F81 /* ExpenseCell.swift */; };
-		BA06E6651E3C2F06007E4F81 /* ExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */; };
-		BA06E6661E3C2F06007E4F81 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */; };
-		BA06E6671E3C2F06007E4F81 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */; };
-		BA06E6831E3C30B5007E4F81 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA06E6751E3C2FB9007E4F81 /* SQLite.framework */; };
-		BA06E6851E3C30DF007E4F81 /* SQLite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA06E6751E3C2FB9007E4F81 /* SQLite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BA06E69A1E3C3797007E4F81 /* zh-Hans.lproj in Resources */ = {isa = PBXBuildFile; fileRef = BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */; };
-		BA830F651E3C6AE2008F4404 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA830F601E3C6AA3008F4404 /* Charts.framework */; };
-		BA830F661E3C6AE2008F4404 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BA830F601E3C6AA3008F4404 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BA14159125690C64007F78F3 /* OverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA14159025690C64007F78F3 /* OverviewView.swift */; };
+		BA141593256917A3007F78F3 /* CategoryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA141592256917A3007F78F3 /* CategoryCellView.swift */; };
+		BA356B2D256A728C00F7BA6C /* ExpenseChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA356B2C256A728C00F7BA6C /* ExpenseChartView.swift */; };
+		BA60593424A621C500420C84 /* ExpensesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA60593324A621C500420C84 /* ExpensesViewModel.swift */; };
+		BA60593924A6B43000420C84 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = BA60593824A6B43000420C84 /* SQLite */; };
+		BA60593C24A6B48C00420C84 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = BA60593B24A6B48C00420C84 /* Charts */; };
+		BA60B6B124C1A7E900B6C38D /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA60B6B024C1A7E900B6C38D /* CategoryPickerView.swift */; };
+		BA67376F2568EF74006CCD41 /* BudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA67376E2568EF74006CCD41 /* BudgetApp.swift */; };
+		BAC9D67524A60B8B00670C10 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9D67424A60B8B00670C10 /* HistoryView.swift */; };
+		BAC9D67F24A60F7600670C10 /* ExpenseGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9D67E24A60F7600670C10 /* ExpenseGroup.swift */; };
+		BAF3494724A7454600FAC2F4 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF3494624A7454600FAC2F4 /* Formatter.swift */; };
+		BAF9D7AE24A6B81A00EAA6DA /* ExpenseCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF9D7AD24A6B81A00EAA6DA /* ExpenseCellView.swift */; };
+		BAF9D7B924A712ED00EAA6DA /* ExpenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF9D7B824A712ED00EAA6DA /* ExpenseView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		BA06E6741E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247AD31C3F04ED00AE3E12;
-			remoteInfo = "SQLite iOS";
-		};
-		BA06E6761E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247ADD1C3F04ED00AE3E12;
-			remoteInfo = "SQLiteTests iOS";
-		};
-		BA06E6781E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247B3C1C3F3ED000AE3E12;
-			remoteInfo = "SQLite Mac";
-		};
-		BA06E67A1E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EE247B451C3F3ED000AE3E12;
-			remoteInfo = "SQLiteTests Mac";
-		};
-		BA06E67C1E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 03A65E5A1C6BB0F50062603F;
-			remoteInfo = "SQLite tvOS";
-		};
-		BA06E67E1E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 03A65E631C6BB0F60062603F;
-			remoteInfo = "SQLiteTests tvOS";
-		};
-		BA06E6801E3C2FB9007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A121AC451CA35C79005A31D1;
-			remoteInfo = "SQLite watchOS";
-		};
-		BA06E6861E3C30DF007E4F81 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = EE247AD21C3F04ED00AE3E12;
-			remoteInfo = "SQLite iOS";
-		};
-		BA830F5F1E3C6AA3008F4404 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06165F241D8110E600722320;
-			remoteInfo = Charts;
-		};
-		BA830F631E3C6AA3008F4404 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 06165F2E1D8110E600722320;
-			remoteInfo = ChartsTests;
-		};
-		BA830F671E3C6AE2008F4404 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A58A4ED274A941CA248EA921;
-			remoteInfo = Charts;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		BA06E6881E3C30DF007E4F81 /* Embed Frameworks */ = {
@@ -112,8 +35,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BA06E6851E3C30DF007E4F81 /* SQLite.framework in Embed Frameworks */,
-				BA830F661E3C6AE2008F4404 /* Charts.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,24 +43,25 @@
 
 /* Begin PBXFileReference section */
 		BA06E6431E3C2EAF007E4F81 /* Expenses.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Expenses.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BA06E6461E3C2EAF007E4F81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BA06E64D1E3C2EAF007E4F81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		BA06E64F1E3C2EAF007E4F81 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BA06E6521E3C2EAF007E4F81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BA06E6541E3C2EAF007E4F81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BA06E65A1E3C2F06007E4F81 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		BA06E65B1E3C2F06007E4F81 /* DatabaseManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		BA06E65C1E3C2F06007E4F81 /* Expense.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expense.swift; sourceTree = "<group>"; };
 		BA06E65D1E3C2F06007E4F81 /* ExpenseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseCell.swift; sourceTree = "<group>"; };
-		BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpenseViewController.swift; sourceTree = "<group>"; };
-		BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
-		BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
-		BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SQLite.xcodeproj; path = SQLite.swift/SQLite.xcodeproj; sourceTree = "<group>"; };
-		BA06E6941E3C3549007E4F81 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "zh-Hans.lproj"; sourceTree = "<group>"; };
-		BA06E69C1E3C37CD007E4F81 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
-		BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = SQLite.swift/../Charts/Charts.xcodeproj; sourceTree = "<group>"; };
+		BA14159025690C64007F78F3 /* OverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewView.swift; sourceTree = "<group>"; };
+		BA141592256917A3007F78F3 /* CategoryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellView.swift; sourceTree = "<group>"; };
+		BA356B2C256A728C00F7BA6C /* ExpenseChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseChartView.swift; sourceTree = "<group>"; };
+		BA60593324A621C500420C84 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
+		BA60B6B024C1A7E900B6C38D /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
+		BA67376E2568EF74006CCD41 /* BudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetApp.swift; sourceTree = "<group>"; };
+		BAC9D67424A60B8B00670C10 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		BAC9D67E24A60F7600670C10 /* ExpenseGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGroup.swift; sourceTree = "<group>"; };
 		BAD9B1AE22390AA600362FDE /* Expenses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Expenses.entitlements; sourceTree = "<group>"; };
+		BAF3494624A7454600FAC2F4 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		BAF9D7AD24A6B81A00EAA6DA /* ExpenseCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseCellView.swift; sourceTree = "<group>"; };
+		BAF9D7B824A712ED00EAA6DA /* ExpenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,8 +69,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA06E6831E3C30B5007E4F81 /* SQLite.framework in Frameworks */,
-				BA830F651E3C6AE2008F4404 /* Charts.framework in Frameworks */,
+				BA60593924A6B43000420C84 /* SQLite in Frameworks */,
+				BA60593C24A6B48C00420C84 /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,8 +83,7 @@
 				BAD9B1AE22390AA600362FDE /* Expenses.entitlements */,
 				BA06E6451E3C2EAF007E4F81 /* Budget */,
 				BA06E6441E3C2EAF007E4F81 /* Products */,
-				BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */,
-				BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */,
+				BA7970D123E17FE700080FCC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -177,44 +98,57 @@
 		BA06E6451E3C2EAF007E4F81 /* Budget */ = {
 			isa = PBXGroup;
 			children = (
-				BA06E6461E3C2EAF007E4F81 /* AppDelegate.swift */,
-				BA06E65A1E3C2F06007E4F81 /* CategoryCell.swift */,
+				BA67376E2568EF74006CCD41 /* BudgetApp.swift */,
+				BA60593324A621C500420C84 /* ExpensesViewModel.swift */,
+				BA14158F25690C48007F78F3 /* Overview */,
+				BAF9D7B724A712D300EAA6DA /* Expense */,
+				BA60595824A6B6D700420C84 /* History */,
 				BA06E65B1E3C2F06007E4F81 /* DatabaseManager.swift */,
 				BA06E65C1E3C2F06007E4F81 /* Expense.swift */,
-				BA06E65D1E3C2F06007E4F81 /* ExpenseCell.swift */,
-				BA06E65E1E3C2F06007E4F81 /* ExpenseViewController.swift */,
-				BA06E65F1E3C2F06007E4F81 /* HistoryViewController.swift */,
-				BA06E6601E3C2F06007E4F81 /* OverviewViewController.swift */,
-				BA06E64C1E3C2EAF007E4F81 /* Main.storyboard */,
 				BA06E64F1E3C2EAF007E4F81 /* Assets.xcassets */,
 				BA06E6511E3C2EAF007E4F81 /* LaunchScreen.storyboard */,
 				BA06E6541E3C2EAF007E4F81 /* Info.plist */,
 				BA06E6991E3C3797007E4F81 /* zh-Hans.lproj */,
+				BAF3494624A7454600FAC2F4 /* Formatter.swift */,
 			);
 			path = Budget;
 			sourceTree = "<group>";
 		};
-		BA06E66B1E3C2FB9007E4F81 /* Products */ = {
+		BA14158F25690C48007F78F3 /* Overview */ = {
 			isa = PBXGroup;
 			children = (
-				BA06E6751E3C2FB9007E4F81 /* SQLite.framework */,
-				BA06E6771E3C2FB9007E4F81 /* SQLiteTests iOS.xctest */,
-				BA06E6791E3C2FB9007E4F81 /* SQLite.framework */,
-				BA06E67B1E3C2FB9007E4F81 /* SQLiteTests Mac.xctest */,
-				BA06E67D1E3C2FB9007E4F81 /* SQLite.framework */,
-				BA06E67F1E3C2FB9007E4F81 /* SQLiteTests tvOS.xctest */,
-				BA06E6811E3C2FB9007E4F81 /* SQLite.framework */,
+				BA14159025690C64007F78F3 /* OverviewView.swift */,
+				BA141592256917A3007F78F3 /* CategoryCellView.swift */,
+				BA356B2C256A728C00F7BA6C /* ExpenseChartView.swift */,
 			);
-			name = Products;
+			path = Overview;
 			sourceTree = "<group>";
 		};
-		BA830F5A1E3C6AA3008F4404 /* Products */ = {
+		BA60595824A6B6D700420C84 /* History */ = {
 			isa = PBXGroup;
 			children = (
-				BA830F601E3C6AA3008F4404 /* Charts.framework */,
-				BA830F641E3C6AA3008F4404 /* ChartsTests.xctest */,
+				BA06E65D1E3C2F06007E4F81 /* ExpenseCell.swift */,
+				BAC9D67424A60B8B00670C10 /* HistoryView.swift */,
+				BAC9D67E24A60F7600670C10 /* ExpenseGroup.swift */,
+				BAF9D7AD24A6B81A00EAA6DA /* ExpenseCellView.swift */,
 			);
-			name = Products;
+			path = History;
+			sourceTree = "<group>";
+		};
+		BA7970D123E17FE700080FCC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BAF9D7B724A712D300EAA6DA /* Expense */ = {
+			isa = PBXGroup;
+			children = (
+				BAF9D7B824A712ED00EAA6DA /* ExpenseView.swift */,
+				BA60B6B024C1A7E900B6C38D /* CategoryPickerView.swift */,
+			);
+			path = Expense;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,10 +166,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				BA06E6871E3C30DF007E4F81 /* PBXTargetDependency */,
-				BA830F681E3C6AE2008F4404 /* PBXTargetDependency */,
 			);
 			name = Expenses;
+			packageProductDependencies = (
+				BA60593824A6B43000420C84 /* SQLite */,
+				BA60593B24A6B48C00420C84 /* Charts */,
+			);
 			productName = Budget;
 			productReference = BA06E6431E3C2EAF007E4F81 /* Expenses.app */;
 			productType = "com.apple.product-type.application";
@@ -247,7 +183,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "Henry Zhao";
 				TargetAttributes = {
 					BA06E6421E3C2EAF007E4F81 = {
@@ -263,99 +199,26 @@
 			};
 			buildConfigurationList = BA06E63E1E3C2EAF007E4F81 /* Build configuration list for PBXProject "Expenses" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 				"zh-Hans",
 			);
 			mainGroup = BA06E63A1E3C2EAF007E4F81;
+			packageReferences = (
+				BA60593724A6B43000420C84 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				BA60593A24A6B48C00420C84 /* XCRemoteSwiftPackageReference "Charts" */,
+			);
 			productRefGroup = BA06E6441E3C2EAF007E4F81 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = BA830F5A1E3C6AA3008F4404 /* Products */;
-					ProjectRef = BA830F591E3C6AA3008F4404 /* Charts.xcodeproj */;
-				},
-				{
-					ProductGroup = BA06E66B1E3C2FB9007E4F81 /* Products */;
-					ProjectRef = BA06E66A1E3C2FB9007E4F81 /* SQLite.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				BA06E6421E3C2EAF007E4F81 /* Expenses */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		BA06E6751E3C2FB9007E4F81 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = BA06E6741E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E6771E3C2FB9007E4F81 /* SQLiteTests iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests iOS.xctest";
-			remoteRef = BA06E6761E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E6791E3C2FB9007E4F81 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = BA06E6781E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E67B1E3C2FB9007E4F81 /* SQLiteTests Mac.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests Mac.xctest";
-			remoteRef = BA06E67A1E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E67D1E3C2FB9007E4F81 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = BA06E67C1E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E67F1E3C2FB9007E4F81 /* SQLiteTests tvOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SQLiteTests tvOS.xctest";
-			remoteRef = BA06E67E1E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA06E6811E3C2FB9007E4F81 /* SQLite.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SQLite.framework;
-			remoteRef = BA06E6801E3C2FB9007E4F81 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA830F601E3C6AA3008F4404 /* Charts.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Charts.framework;
-			remoteRef = BA830F5F1E3C6AA3008F4404 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		BA830F641E3C6AA3008F4404 /* ChartsTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ChartsTests.xctest;
-			remoteRef = BA830F631E3C6AA3008F4404 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		BA06E6411E3C2EAF007E4F81 /* Resources */ = {
@@ -365,7 +228,6 @@
 				BA06E6531E3C2EAF007E4F81 /* LaunchScreen.storyboard in Resources */,
 				BA06E6501E3C2EAF007E4F81 /* Assets.xcassets in Resources */,
 				BA06E69A1E3C3797007E4F81 /* zh-Hans.lproj in Resources */,
-				BA06E64E1E3C2EAF007E4F81 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,43 +238,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA67376F2568EF74006CCD41 /* BudgetApp.swift in Sources */,
+				BAC9D67F24A60F7600670C10 /* ExpenseGroup.swift in Sources */,
 				BA06E6631E3C2F06007E4F81 /* Expense.swift in Sources */,
-				BA06E6471E3C2EAF007E4F81 /* AppDelegate.swift in Sources */,
 				BA06E6641E3C2F06007E4F81 /* ExpenseCell.swift in Sources */,
-				BA06E6611E3C2F06007E4F81 /* CategoryCell.swift in Sources */,
 				BA06E6621E3C2F06007E4F81 /* DatabaseManager.swift in Sources */,
-				BA06E6671E3C2F06007E4F81 /* OverviewViewController.swift in Sources */,
-				BA06E6661E3C2F06007E4F81 /* HistoryViewController.swift in Sources */,
-				BA06E6651E3C2F06007E4F81 /* ExpenseViewController.swift in Sources */,
+				BA141593256917A3007F78F3 /* CategoryCellView.swift in Sources */,
+				BAC9D67524A60B8B00670C10 /* HistoryView.swift in Sources */,
+				BAF9D7AE24A6B81A00EAA6DA /* ExpenseCellView.swift in Sources */,
+				BA356B2D256A728C00F7BA6C /* ExpenseChartView.swift in Sources */,
+				BA60593424A621C500420C84 /* ExpensesViewModel.swift in Sources */,
+				BAF9D7B924A712ED00EAA6DA /* ExpenseView.swift in Sources */,
+				BAF3494724A7454600FAC2F4 /* Formatter.swift in Sources */,
+				BA60B6B124C1A7E900B6C38D /* CategoryPickerView.swift in Sources */,
+				BA14159125690C64007F78F3 /* OverviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		BA06E6871E3C30DF007E4F81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "SQLite iOS";
-			targetProxy = BA06E6861E3C30DF007E4F81 /* PBXContainerItemProxy */;
-		};
-		BA830F681E3C6AE2008F4404 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Charts;
-			targetProxy = BA830F671E3C6AE2008F4404 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
-		BA06E64C1E3C2EAF007E4F81 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BA06E64D1E3C2EAF007E4F81 /* Base */,
-				BA06E6941E3C3549007E4F81 /* en */,
-				BA06E69C1E3C37CD007E4F81 /* zh-Hans */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BA06E6511E3C2EAF007E4F81 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -449,6 +294,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -474,7 +320,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -509,6 +355,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -528,7 +375,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -544,14 +391,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 487Q2BZ39X;
+				DEVELOPMENT_TEAM = C727NR2SU6;
 				INFOPLIST_FILE = Budget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.henryzhao.budget;
+				PRODUCT_BUNDLE_IDENTIFIER = net.henryzhao.expenses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -566,14 +413,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 487Q2BZ39X;
+				DEVELOPMENT_TEAM = C727NR2SU6;
 				INFOPLIST_FILE = Budget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = net.henryzhao.budget;
+				PRODUCT_BUNDLE_IDENTIFIER = net.henryzhao.expenses;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -603,6 +450,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BA60593724A6B43000420C84 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.12.2;
+			};
+		};
+		BA60593A24A6B48C00420C84 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BA60593824A6B43000420C84 /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA60593724A6B43000420C84 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+		BA60593B24A6B48C00420C84 /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BA60593A24A6B48C00420C84 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BA06E63B1E3C2EAF007E4F81 /* Project object */;
 }

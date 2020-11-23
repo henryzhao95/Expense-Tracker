@@ -3,12 +3,51 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "closure #2 in closure #1 in ExpenseView.body.getter:ExpenseView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "viewModel.categories.first">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExpenseView.init(expense:):ExpenseView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ExpensesViewModel.deleteExpense(_:):ExpensesViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data[0]">
+            </PersistentString>
+            <PersistentString
+               value = "sectionInMemory">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExpenseView.costProxy.getter:ExpenseView.swift">
+      </ContextState>
+      <ContextState
          contextName = "OverviewViewController.setChartData():OverviewViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "actualRunningTotal.last ?? 0">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in ExpenseView.costProxy.getter:ExpenseView.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ExpensesViewModel.addExpenseInMemory(_:):ExpensesViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data[groupIndex]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in HistoryView.body.getter:HistoryView.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

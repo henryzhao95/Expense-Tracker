@@ -6,6 +6,7 @@
 //  Copyright © 2016 Henry Zhao. All rights reserved.
 //
 
+import Foundation
 import SQLite
 
 let id = Expression<Int64>("id")
@@ -29,7 +30,7 @@ class DatabaseManager {
     
     init() {
         db = try! Connection(getURL().path!)
-        // print(getURL().path!)
+        print(getURL().path!)
         if dbEmpty() {
             newTable("expenses")
         }

@@ -1,14 +1,6 @@
-//
-//  Expense.swift
-//  Budget
-//
-//  Created by Henry Zhao on 18/02/2016.
-//  Copyright © 2016 Henry Zhao. All rights reserved.
-//
-
 import UIKit
 
-class Expense: NSObject {
+class Expense: Identifiable {
     
     var id: Int64
     var date: String
@@ -22,16 +14,5 @@ class Expense: NSObject {
         self.cost = cost
         self.category = category
         self.desc = description
-    }
-    
-    func longDate() -> String {
-        let df = DateFormatter()
-        df.timeZone = TimeZone.current
-        df.dateFormat = "yyyy-MM-dd"
-        let temp = df.date(from: date)
-        df.dateFormat = nil
-        df.dateStyle = .long
-        df.timeStyle = .none
-        return df.string(from: temp!)
     }
 }
