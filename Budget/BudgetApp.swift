@@ -35,6 +35,7 @@ struct BudgetApp: App {
                 }
                 .tag(2)
             }
+            .accentColor(.red)
             .environmentObject(expensesViewModel)
         }
     }

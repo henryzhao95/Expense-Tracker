@@ -1,36 +1,26 @@
 import SwiftUI
+import Combine
 
 struct ExpenseView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
     @State private var category: String = ""
     @State private var date = Date()
     @State private var description = ""
-    @State private var cost: Double = 0
+    @State private var prevCost = ""
+    @State private var cost = ""
     // id 0 = new expense
     @State private var id: Int64 = 0
-    
-    var costProxy: Binding<String> {
-        Binding<String>(
-            get: { self.string(from: self.cost) },
-            set: {
-                if let value = Formatter.currencyFormatter.number(from: $0) {
-                    self.cost = value.doubleValue
-                }
-            }
-        )
-    }
-    private func string(from value: Double) -> String {
-        guard let s = Formatter.currencyFormatter.string(from: NSNumber(value: value)) else { return "" }
-        return s
-    }
+    @State private var canSave = false
     
     init(expense: Expense? = nil) {
         if (expense != nil) {
             _id = State(initialValue: expense!.id as Int64)
-            _cost = State(initialValue: expense!.cost)
+            _prevCost = State(initialValue: String(expense!.cost))
+            _cost = State(initialValue: String(expense!.cost))
             _date = State(initialValue: Formatter.dateFromIso(expense!.date))
             _category = State(initialValue: expense!.category)
             _description = State(initialValue: expense!.desc ?? "")
+            _canSave = State(initialValue: true)
         }
     }
     
@@ -45,17 +35,31 @@ struct ExpenseView: View {
                 TextField("Description", text: $description)
                 
                 // can't directly use formatter: Formatter.currencyFormatter overload https://stackoverflow.com/questions/56799456/swiftui-textfield-with-formatter-not-working
-                TextField("Cost", text: costProxy)
+                TextField("Cost", text: $cost)
                     .multilineTextAlignment(.trailing)
                     .font(.title)
                     .foregroundColor(.red)
                     .keyboardType(.decimalPad)
+                    .onReceive(Just(cost)) { newValue in
+                        if newValue == "" {
+                            prevCost = cost
+                            canSave = false
+                        } else if Double(newValue) != nil {
+                            print("\(newValue) is valid")
+                            prevCost = cost
+                            canSave = true
+                        } else {
+                            print("\(self.cost) is invalid, disable saving")
+                            cost = prevCost
+                        }
+                    }
                 
                 HStack {
                     Spacer()
                     Button(action: saveExpense) {
                         Text("Save")
                     }
+                    .disabled(!canSave)
                 }
             }
             .resignKeyboardOnDragGesture()
@@ -73,7 +77,7 @@ struct ExpenseView: View {
     }
     
     func saveExpense() {
-        let expense = Expense(id: id, date: Formatter.isoDate(date), cost: cost, category: category, description: description)
+        let expense = Expense(id: id, date: Formatter.isoDate(date), cost: Double(cost)!, category: category, description: description)
         
         if expense.id > 0 {
             viewModel.updateExpense(expense)

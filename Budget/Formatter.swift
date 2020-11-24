@@ -44,9 +44,9 @@ class Formatter {
         dateFormatter.dateStyle = .full
         return dateFormatter.string(from: temp!)
     }
-
+    
     // from 10 to 10.00
     static func formatCost(_ c: Double) -> String {
         return currencyFormatter.string(from: NSNumber(value: c as Double)) ?? "?"
-     }
+    }
 }
