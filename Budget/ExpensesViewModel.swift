@@ -41,7 +41,7 @@ class ExpensesViewModel: ObservableObject {
         let expenses = try! db?.prepare(filteredTable!)
         
         // Hardcoded
-        let dailyTarget = 15.902
+        let dailyTarget = 16.9315
         
         let calendar = Calendar.current
         dates.append(Formatter.dateFromIso(fromDate))

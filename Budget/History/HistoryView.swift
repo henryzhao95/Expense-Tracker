@@ -2,13 +2,14 @@ import SwiftUI
 
 struct HistoryView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
-
+    @State var showExpenseView = false
+    
     var body: some View {
         List {
             ForEach(viewModel.data) { expenseGroup in
                 Section(header: Text(Formatter.formatDate(expenseGroup.date))) {
                     ForEach(expenseGroup.expenses!) { expense in
-                        NavigationLink(destination: ExpenseView(expense: expense)) {
+                        NavigationLink(destination: ExpenseView(expense: expense, isActive: $showExpenseView)/*, isActive: $showExpenseView*/) {
                             ExpenseCellView(expense: expense)
                                 .onAppear {
                                     self.expenseOnAppear(expense)

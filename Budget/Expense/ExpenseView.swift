@@ -3,6 +3,8 @@ import Combine
 
 struct ExpenseView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
+    @Binding var isActive: Bool
+    
     @State private var category: String = ""
     @State private var date = Date()
     @State private var description = ""
@@ -12,7 +14,11 @@ struct ExpenseView: View {
     @State private var id: Int64 = 0
     @State private var canSave = false
     
-    init(expense: Expense? = nil) {
+    init(isActive: Binding<Bool>) {
+        _isActive = isActive
+    }
+    
+    init(expense: Expense? = nil, isActive: Binding<Bool>) {
         if (expense != nil) {
             _id = State(initialValue: expense!.id as Int64)
             _prevCost = State(initialValue: String(expense!.cost))
@@ -22,7 +28,20 @@ struct ExpenseView: View {
             _description = State(initialValue: expense!.desc ?? "")
             _canSave = State(initialValue: true)
         }
+        
+        _isActive = isActive
     }
+    
+    /*
+    func resetState() {
+        category = ""
+        date = Date()
+        description = ""
+        prevCost = ""
+        cost = ""
+        id = 0
+        canSave = false
+    } */
     
     var body: some View {
         return VStack {
@@ -83,14 +102,17 @@ struct ExpenseView: View {
             viewModel.updateExpense(expense)
         } else {
             viewModel.addExpense(expense)
-            // TODO: return to HistoryViewModel
         }
+        
+        isActive = false
     }
 }
 
 struct ExpenseView_Previews: PreviewProvider {
+    @State static var isActive = false
+    
     static var previews: some View {
-        ExpenseView()
+        ExpenseView(isActive: $isActive)
             .environmentObject(ExpensesViewModel(data: testData))
         // .environment(\.locale, .init(identifier: "zh"))
     }

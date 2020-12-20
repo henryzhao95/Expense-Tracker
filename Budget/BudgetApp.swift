@@ -4,6 +4,7 @@ import SwiftUI
 struct BudgetApp: App {
     @StateObject private var expensesViewModel = ExpensesViewModel()
     @State private var selection = 1
+    @State private var expenseViewActive = true
 
     var body: some Scene {
         WindowGroup {
@@ -18,7 +19,7 @@ struct BudgetApp: App {
                 .tag(0)
                 
                 NavigationView {
-                    ExpenseView()
+                    ExpenseView(isActive: $expenseViewActive)
                 }
                 .tabItem {
                     Image(systemName: "plus.circle")
@@ -37,7 +38,17 @@ struct BudgetApp: App {
             }
             .accentColor(.red)
             .environmentObject(expensesViewModel)
+            .onChange(of: expenseViewActive, perform: { value in
+                if expenseViewActive == false {
+                    selection = 2
+                    expenseViewActive = true
+                }
+            })
         }
+    }
+    
+    func switchTabToHistoryView() {
+        selection = 2
     }
 }
 
