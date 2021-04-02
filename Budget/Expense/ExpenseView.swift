@@ -3,6 +3,7 @@ import Combine
 
 struct ExpenseView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
+    @Environment(\.presentationMode) var presentationMode
     @Binding var isActive: Bool
     
     @State private var category: String = ""
@@ -32,7 +33,6 @@ struct ExpenseView: View {
         _isActive = isActive
     }
     
-    /*
     func resetState() {
         category = ""
         date = Date()
@@ -41,7 +41,7 @@ struct ExpenseView: View {
         cost = ""
         id = 0
         canSave = false
-    } */
+    }
     
     var body: some View {
         return VStack {
@@ -100,10 +100,11 @@ struct ExpenseView: View {
         
         if expense.id > 0 {
             viewModel.updateExpense(expense)
+            self.presentationMode.wrappedValue.dismiss()
         } else {
             viewModel.addExpense(expense)
+            resetState()
         }
-        
         isActive = false
     }
 }

@@ -9,7 +9,7 @@ struct HistoryView: View {
             ForEach(viewModel.data) { expenseGroup in
                 Section(header: Text(Formatter.formatDate(expenseGroup.date))) {
                     ForEach(expenseGroup.expenses!) { expense in
-                        NavigationLink(destination: ExpenseView(expense: expense, isActive: $showExpenseView)/*, isActive: $showExpenseView*/) {
+                        NavigationLink(destination: ExpenseView(expense: expense, isActive: $showExpenseView)) {
                             ExpenseCellView(expense: expense)
                                 .onAppear {
                                     self.expenseOnAppear(expense)
