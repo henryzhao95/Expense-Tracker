@@ -9,8 +9,9 @@ class ExpensesViewModel: ObservableObject {
     @Published var expensesByTime: ([Date], [Double], [Double])
     
     let db = DatabaseManager.sharedInstance.db
-    let table = DatabaseManager.sharedInstance.table
-    
+    let expensesTable = DatabaseManager.sharedInstance.expensesTable
+    let targetsTable = DatabaseManager.sharedInstance.targetsTable
+
     static let pageSize = 50
     var dbOffset = 0
     
@@ -26,22 +27,36 @@ class ExpensesViewModel: ObservableObject {
         }
     }
     
-    func loadExpensesByTime(fromDate: String) {
+    func loadExpensesByTime(fromDate: String, categoryFilter: String? = nil) {
         var dates: [Date] = []
         var actualRunningTotal: [Double] = []
         var targetRunningTotal: [Double] = []
         
         let today = Formatter.isoDate(Date())
-        let filteredTable = table?
-            .select(date, category, cost.sum)
-            .filter(date >= fromDate)
-            .filter(date <= today)
-            .group(date, category)
-            .order(date.asc)
+        
+        var filteredTable: Table?
+        
+        if (categoryFilter == nil) {
+            filteredTable = expensesTable?
+                .select(date, category, cost.sum)
+                .filter(date >= fromDate)
+                .filter(date <= today)
+                .group(date, category)
+                .order(date.asc)
+        } else {
+            filteredTable = expensesTable?
+                .select(date, category, cost.sum)
+                .filter(date >= fromDate)
+                .filter(date <= today)
+                .filter(category == categoryFilter!)
+                .group(date, category)
+                .order(date.asc)
+        }
+        
         let expenses = try! db?.prepare(filteredTable!)
         
         // Hardcoded
-        let dailyTarget = 16.9315
+        let dailyTarget = 18.082
         
         let calendar = Calendar.current
         dates.append(Formatter.dateFromIso(fromDate))
@@ -67,18 +82,20 @@ class ExpensesViewModel: ObservableObject {
         
         let today = Formatter.isoDate(Date())
         
-        let categoryQuery = table?
+        let categoryQuery = expensesTable!
+            .join(.leftOuter, targetsTable!, on: targetsTable![category] == expensesTable![category])
             .filter(date >= fromDate)
             .filter(date <= today)
-            .select(cost.sum, category)
-            .group(category)
-            .order(category.asc)
+            .select(cost.sum, expensesTable![category], annualTarget)
+            .group(expensesTable![category])
+            .order(expensesTable![category].asc)
         
-        let categoryResult = try! db?.prepare(categoryQuery!)
+        let categoryResult = try! db?.prepare(categoryQuery)
         for c in categoryResult! {
             let name = c[category]
             let sum = c[cost.sum]
-            expensesByCategory.append(ExpenseCategory(name: name, sum: sum!))
+            let annualTarget: Double? = c[annualTarget]
+            expensesByCategory.append(ExpenseCategory(name: name, sum: sum!, annualTarget: annualTarget))
         }
     }
     
@@ -88,7 +105,7 @@ class ExpensesViewModel: ObservableObject {
     
     func loadCategories() {
         do {
-            let results = try db?.prepare((table?.select(distinct: category).order(date.desc))!)
+            let results = try db?.prepare((expensesTable?.select(distinct: category).order(date.desc))!)
             categories.removeAll()
             for c in results! {
                 categories.append(c[category])
@@ -104,7 +121,7 @@ class ExpensesViewModel: ObservableObject {
     func loadNextPage() {
         let nextPage: AnySequence<Row>!
         do {
-            try nextPage = db?.prepare((table?.order(date.desc, id.desc).limit(ExpensesViewModel.pageSize, offset: dbOffset))!)
+            try nextPage = db?.prepare((expensesTable?.order(date.desc, id.desc).limit(ExpensesViewModel.pageSize, offset: dbOffset))!)
         } catch {
             print("Delete failed: \(error)")
             return
@@ -118,7 +135,7 @@ class ExpensesViewModel: ObservableObject {
     
     func updateExpense(_ expense: Expense) {
         do {
-            let row = table?.filter(id == expense.id)
+            let row = expensesTable?.filter(id == expense.id)
             try db?.run((row?.update(cost <- expense.cost, category <- expense.category, desc <- expense.desc, date <- expense.date))!)
             addOrUpdateExpenseInMemory(expense)
         } catch {
@@ -128,7 +145,7 @@ class ExpensesViewModel: ObservableObject {
     
     func addExpense(_ expense: Expense) {
         do {
-            try db?.run((table?.insert(cost <- expense.cost, category <- expense.category, desc <- expense.desc, date <- expense.date))!)
+            try db?.run((expensesTable?.insert(cost <- expense.cost, category <- expense.category, desc <- expense.desc, date <- expense.date))!)
             // Row ID to pass back
             expense.id = try db!.prepare("SELECT LAST_INSERT_ROWID()").next()![0]! as! Int64
             addOrUpdateExpenseInMemory(expense)
@@ -180,7 +197,7 @@ class ExpensesViewModel: ObservableObject {
     
     func deleteExpense(_ expense: Expense) {
         do {
-            if try db?.run((table?.filter(id == expense.id).delete())!) ?? 0 > 0 {
+            if try db?.run((expensesTable?.filter(id == expense.id).delete())!) ?? 0 > 0 {
                 
                 let sectionInMemoryIndex = data.firstIndex(where: {
                     $0.date == expense.date
@@ -206,4 +223,5 @@ class ExpensesViewModel: ObservableObject {
 struct ExpenseCategory {
     var name: String
     var sum: Double
+    var annualTarget: Double?
 }

@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "Row.subscript.getter:Query.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ExpensesViewModel.loadExpensesByTime(fromDate:categoryFilter:):ExpensesViewModel.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "categoryFilter == nil">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #2 in closure #1 in ExpenseView.body.getter:ExpenseView.swift">
          <PersistentStrings>
             <PersistentString

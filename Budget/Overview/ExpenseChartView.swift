@@ -7,9 +7,6 @@ struct ExpenseChartView : UIViewRepresentable {
     // typealias UIViewType = LineChartView
     private let lineChartFormatter = LineChartFormatter()
     
-    init() {
-    }
-
     func makeUIView(context: Context) -> LineChartView {
         let chartView = LineChartView()
         chartView.chartDescription?.text = ""
