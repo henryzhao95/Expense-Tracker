@@ -11,7 +11,6 @@ struct OverviewView: View {
      */
     @State var dateFrames = [(String, String)]()
     @State var selectedDateFrameIndex: Int? = nil
-    @State var selectedCategory: String? = nil
     
     // "2016-02-01", used by reloadData() to restrict SQLite query
     @State var fromDate: String!
@@ -22,18 +21,10 @@ struct OverviewView: View {
                 ForEach(viewModel.expensesByCategory, id: \.self.name) { expenseCategory in
                     CategoryCellView(expenseCategory: expenseCategory)
                         .contentShape(Rectangle()) // makes whole row tappable
-                        .onTapGesture {
-                            if (selectedCategory == expenseCategory.name) {
-                                selectedCategory = nil
-                            } else {
-                                selectedCategory = expenseCategory.name
-                            }
-                            viewModel.loadExpensesByTime(fromDate: fromDate, categoryFilter: selectedCategory)
-                        }
-                        .listRowBackground(expenseCategory.name == selectedCategory ? Color(.systemFill) : Color(.systemBackground))
                 }
             }
             .listStyle(PlainListStyle())
+            
             ExpenseChartView()
         }
         .navigationTitle("Overview")
@@ -41,7 +32,7 @@ struct OverviewView: View {
         .onAppear {
             reloadDateFrames()
             viewModel.loadExpensesByCategory(fromDate: fromDate)
-            viewModel.loadExpensesByTime(fromDate: fromDate, categoryFilter: selectedCategory)
+            viewModel.loadExpensesByTime(fromDate: fromDate)
         }
     }
     
@@ -50,7 +41,7 @@ struct OverviewView: View {
         fromDate = dateFrames.first?.1
         
         viewModel.loadExpensesByCategory(fromDate: fromDate)
-        viewModel.loadExpensesByTime(fromDate: fromDate, categoryFilter: selectedCategory)
+        viewModel.loadExpensesByTime(fromDate: fromDate)
     }
     
     func reloadDateFrames() {

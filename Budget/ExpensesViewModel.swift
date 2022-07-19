@@ -6,7 +6,7 @@ class ExpensesViewModel: ObservableObject {
     @Published var data: [ExpenseGroup]
     @Published var categories: [String]
     @Published var expensesByCategory: [ExpenseCategory]
-    @Published var expensesByTime: ([Date], [Double], [Double])
+    @Published var expensesByTime: [ExpenseDate]
     
     let db = DatabaseManager.sharedInstance.db
     let expensesTable = DatabaseManager.sharedInstance.expensesTable
@@ -19,7 +19,7 @@ class ExpensesViewModel: ObservableObject {
         self.data = data
         self.categories = categories
         self.expensesByCategory = []
-        self.expensesByTime = ([], [], [])
+        self.expensesByTime = []
         
         if (data.isEmpty) {
             loadNextPage()
@@ -27,54 +27,57 @@ class ExpensesViewModel: ObservableObject {
         }
     }
     
-    func loadExpensesByTime(fromDate: String, categoryFilter: String? = nil) {
-        var dates: [Date] = []
-        var actualRunningTotal: [Double] = []
-        var targetRunningTotal: [Double] = []
+    func loadExpensesByTime(fromDate: String) {
         
         let today = Formatter.isoDate(Date())
         
         var filteredTable: Table?
         
-        if (categoryFilter == nil) {
-            filteredTable = expensesTable?
-                .select(date, category, cost.sum)
-                .filter(date >= fromDate)
-                .filter(date <= today)
-                .group(date, category)
-                .order(date.asc)
-        } else {
-            filteredTable = expensesTable?
-                .select(date, category, cost.sum)
-                .filter(date >= fromDate)
-                .filter(date <= today)
-                .filter(category == categoryFilter!)
-                .group(date, category)
-                .order(date.asc)
-        }
+        filteredTable = expensesTable?
+            .select(date, category, cost.sum)
+            .filter(date >= fromDate)
+            .filter(date <= today)
+            .group(date, category)
+            .order(date.asc)
         
         let expenses = try! db?.prepare(filteredTable!)
         
-        // Hardcoded
-        let dailyTarget = 18.082
+        var runningTotals = [String: Double]()
+        expensesByTime = []
         
+        var lastAddedDate: Date? = nil
         let calendar = Calendar.current
-        dates.append(Formatter.dateFromIso(fromDate))
-        actualRunningTotal.append(0)
-        targetRunningTotal.append(0)
+
+        for category in categories {
+            runningTotals[category] = 0
+        }
         
         for expense in expenses! {
             let expenseDate = Formatter.dateFromIso(expense[date])
-            while dates.last! < expenseDate {
-                dates.append(calendar.date(byAdding: .day, value: 1, to: dates.last!)!)
-                actualRunningTotal.append(actualRunningTotal.last ?? 0)
-                targetRunningTotal.append((targetRunningTotal.last != nil) ? targetRunningTotal.last! + dailyTarget : dailyTarget)
+            
+            while lastAddedDate == nil || expenseDate != lastAddedDate! {
+                var dateToAdd: Date
+                
+                if lastAddedDate == nil {
+                    dateToAdd = expenseDate
+                } else {
+                    dateToAdd = calendar.date(byAdding: .day, value: 1, to: lastAddedDate!)!
+                }
+                
+                for category in categories {
+                    expensesByTime.append(ExpenseDate(date: dateToAdd, category: category, runningTotal: runningTotals[category]!))
+                }
+                
+                lastAddedDate = dateToAdd
             }
             
-            actualRunningTotal[actualRunningTotal.count-1] += expense[cost.sum]!
+            var runningTotalForCategory = runningTotals[expense[category]]
+            runningTotalForCategory! += expense[cost.sum]!
+            runningTotals.updateValue(runningTotalForCategory!, forKey: expense[category])
+            
+            var expenseTimeForCategory = expensesByTime.first(where: { $0.date == expenseDate && $0.category == expense[category ]})!
+            expenseTimeForCategory.runningTotal = runningTotalForCategory!
         }
-        
-        expensesByTime = (dates, actualRunningTotal, targetRunningTotal)
     }
     
     func loadExpensesByCategory(fromDate: String) {
@@ -224,4 +227,12 @@ struct ExpenseCategory {
     var name: String
     var sum: Double
     var annualTarget: Double?
+}
+
+struct ExpenseDate: Identifiable {
+    var id = UUID()
+    
+    var date: Date
+    var category: String
+    var runningTotal: Double
 }
