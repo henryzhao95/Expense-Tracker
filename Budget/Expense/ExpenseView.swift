@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import Foundation
 
 struct ExpenseView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
@@ -50,6 +51,12 @@ struct ExpenseView: View {
                 CategoryPickerView(categories: viewModel.categories, selectedCategory: $category)
                 
                 DatePicker("Date", selection: $date, displayedComponents: .date)
+                    .onReceive(NotificationCenter.default.publisher(for: Notification.Name.NSCalendarDayChanged), perform: { _ in
+                        let days = Calendar.current.dateComponents([.day], from: date, to: Date()).day!
+                        if days == 1 {
+                            date = Date()
+                        }
+                    })
                 
                 TextField("Description", text: $description)
                 
