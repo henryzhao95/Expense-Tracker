@@ -52,8 +52,7 @@ struct ExpenseView: View {
                 
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                     .onReceive(NotificationCenter.default.publisher(for: Notification.Name.NSCalendarDayChanged), perform: { _ in
-                        let days = Calendar.current.dateComponents([.day], from: date, to: Date()).day!
-                        if days == 1 {
+                        if id == 0 {
                             date = Date()
                         }
                     })
