@@ -21,7 +21,7 @@ struct ExpenseChartView : View {
                 }
                 if viewModel.expensesByTime.count > 0 {
                     LineMark(x: .value("Date", viewModel.expensesByTime[0].date), y: .value("Spent", 0.0))
-                    LineMark(x: .value("Date", viewModel.expensesByTime[viewModel.expensesByTime.count-1].date), y: .value("Spent", 18.25 * Double(Calendar.current.dateComponents([.day], from: viewModel.expensesByTime[0].date, to: viewModel.expensesByTime[viewModel.expensesByTime.count-1].date).day!)))
+                    LineMark(x: .value("Date", viewModel.expensesByTime[viewModel.expensesByTime.count-1].date), y: .value("Spent", 28.504 * Double(Calendar.current.dateComponents([.day], from: viewModel.expensesByTime[0].date, to: viewModel.expensesByTime[viewModel.expensesByTime.count-1].date).day!)))
                 }
             }
             .padding()
