@@ -1,78 +1,188 @@
 import SwiftUI
-import Charts
+
+struct DateFrame: Equatable {
+    let title: String
+    let fromDate: Date
+    let toDate: Date
+
+    var budgetDays: Int {
+        let calendar = Calendar.current
+        let start = calendar.startOfDay(for: fromDate)
+        let end = calendar.startOfDay(for: toDate)
+        return (calendar.dateComponents([.day], from: start, to: end).day ?? 0) + 1
+    }
+}
+
+private enum OverviewSheet: Identifiable {
+    case addBudget
+    case customDateRange
+
+    var id: Self { self }
+}
 
 struct OverviewView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
-    
-    /*
-     Time frame for the Overview
-     Used like a rotating list, where [0] is current
-     (Month, 2016-02-01)
-     */
-    @State var dateFrames = [(String, String)]()
-    @State var selectedDateFrameIndex: Int? = nil
-    
-    // "2016-02-01", used by reloadData() to restrict SQLite query
-    @State var fromDate: String!
-        
+
+    @State private var dateFrame: DateFrame?
+    @State private var activeSheet: OverviewSheet?
+
     var body: some View {
-        return VStack {
+        VStack {
             List {
                 ForEach(viewModel.expensesByCategory, id: \.self.name) { expenseCategory in
-                    CategoryCellView(expenseCategory: expenseCategory)
-                        .contentShape(Rectangle()) // makes whole row tappable
+                    NavigationLink(destination: BudgetTargetView(category: expenseCategory.name, initialTarget: expenseCategory.annualTarget)) {
+                        CategoryCellView(expenseCategory: expenseCategory, budgetDays: dateFrame?.budgetDays)
+                            .contentShape(Rectangle())
+                    }
                 }
             }
             .listStyle(PlainListStyle())
-            
+
             ExpenseChartView()
         }
         .navigationTitle("Overview")
-        .navigationBarItems(trailing: Button(dateFrames.first?.0 ?? "Loading...", action: toggleDateFrame))
+        .navigationBarItems(
+            leading: Button(action: { activeSheet = .addBudget }) {
+                Image(systemName: "plus")
+            },
+            trailing: Menu {
+                Button("4 Weeks") {
+                    selectRecentRange(weeks: 4, title: NSLocalizedString("4 Weeks", comment: "Last four weeks"))
+                }
+                Button("13 Weeks") {
+                    selectRecentRange(weeks: 13, title: NSLocalizedString("13 Weeks", comment: "Last thirteen weeks"))
+                }
+                Button("FY to Date") {
+                    selectFinancialYearToDate()
+                }
+                Button("Custom Dates…") {
+                    activeSheet = .customDateRange
+                }
+            } label: {
+                HStack(spacing: 4) {
+                    Text(dateFrame.map(displayTitle(for:)) ?? NSLocalizedString("Date Range", comment: "Date range selector"))
+                    Image(systemName: "chevron.down")
+                        .font(.caption)
+                }
+            }
+        )
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .addBudget:
+                AddBudgetTargetView()
+                    .environmentObject(viewModel)
+            case .customDateRange:
+                CustomDateRangeView(
+                    initialStartDate: dateFrame?.fromDate ?? Calendar.current.date(byAdding: .day, value: -27, to: Date())!,
+                    initialEndDate: dateFrame?.toDate ?? Date(),
+                    onApply: { startDate, endDate in
+                        selectDateRange(
+                            title: nil,
+                            fromDate: startDate,
+                            toDate: endDate
+                        )
+                    }
+                )
+            }
+        }
         .onAppear {
-            reloadDateFrames()
-            viewModel.loadExpensesByCategory(fromDate: fromDate)
-            viewModel.loadExpensesByTime(fromDate: fromDate)
+            if dateFrame == nil {
+                selectFinancialYearToDate()
+            }
         }
     }
-    
-    func toggleDateFrame() {
-        dateFrames.append(dateFrames.removeFirst())
-        fromDate = dateFrames.first?.1
-        
-        viewModel.loadExpensesByCategory(fromDate: fromDate)
-        viewModel.loadExpensesByTime(fromDate: fromDate)
+
+    private func selectRecentRange(weeks: Int, title: String) {
+        let calendar = Calendar.current
+        let endDate = calendar.startOfDay(for: Date())
+        let startDate = calendar.date(byAdding: .day, value: -(weeks * 7 - 1), to: endDate)!
+        selectDateRange(title: title, fromDate: startDate, toDate: endDate)
     }
-    
-    func reloadDateFrames() {
-        dateFrames.removeAll()
-        let df = DateFormatter()
-        df.dateFormat = "yyyy-MM-dd" // for SQLite call
-        
-        let date = Date()
-        let cal = Calendar.current
-        let components = (cal as NSCalendar).components([.day, .month, .year], from: date)
-        
-        fromDate = df.string(from: date.addingTimeInterval(-29*24*60*60)) // + today
-        dateFrames.append(("28 " + NSLocalizedString("Days", comment: "Days"), fromDate))
-        
-        let tempDate = df.string(from: date.addingTimeInterval(-90*24*60*60)) // + today
-        dateFrames.append(("91 " + NSLocalizedString("Days", comment: "Days"), tempDate))
-        
-        var fyStart = components.year!
-        if components.month! <= 6 { // 2016-02 is in 2015-16
-            fyStart = fyStart - 1 // financial year
+
+    private func selectFinancialYearToDate() {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let components = calendar.dateComponents([.month, .year], from: today)
+        let year = components.year!
+        let financialYearStart = DateComponents(
+            year: components.month! <= 6 ? year - 1 : year,
+            month: 7,
+            day: 1
+        )
+        let startDate = calendar.date(from: financialYearStart)!
+        selectDateRange(
+            title: NSLocalizedString("FY to Date", comment: "Financial year to date"),
+            fromDate: startDate,
+            toDate: today
+        )
+    }
+
+    private func selectDateRange(title: String?, fromDate: Date, toDate: Date) {
+        let calendar = Calendar.current
+        let startDate = calendar.startOfDay(for: fromDate)
+        let endDate = calendar.startOfDay(for: toDate)
+        guard startDate <= endDate else { return }
+
+        dateFrame = DateFrame(title: title ?? "", fromDate: startDate, toDate: endDate)
+        viewModel.loadExpensesByCategory(
+            fromDate: Formatter.isoDate(startDate),
+            toDate: Formatter.isoDate(endDate)
+        )
+        viewModel.loadExpensesByTime(
+            fromDate: Formatter.isoDate(startDate),
+            toDate: Formatter.isoDate(endDate)
+        )
+    }
+
+    private func displayTitle(for frame: DateFrame) -> String {
+        guard !frame.title.isEmpty else {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            return "\(formatter.string(from: frame.fromDate)) – \(formatter.string(from: frame.toDate))"
         }
-        let fyString = String(describing: fyStart) + "-07-01"
-        let fyEnd = fyStart % 100 + 1
-        let fyTitle = String(describing: fyStart) + "-" + String(fyEnd) + " " + NSLocalizedString("FY", comment: "Financial Year")
-        dateFrames.append((fyTitle, fyString))
+        return frame.title
+    }
+}
+
+private struct CustomDateRangeView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var startDate: Date
+    @State private var endDate: Date
+    let onApply: (Date, Date) -> Void
+
+    init(initialStartDate: Date, initialEndDate: Date, onApply: @escaping (Date, Date) -> Void) {
+        _startDate = State(initialValue: initialStartDate)
+        _endDate = State(initialValue: initialEndDate)
+        self.onApply = onApply
+    }
+
+    var body: some View {
+        NavigationView {
+            Form {
+                DatePicker("Start Date", selection: $startDate, in: ...endDate, displayedComponents: .date)
+                DatePicker("End Date", selection: $endDate, in: startDate..., displayedComponents: .date)
+            }
+            .navigationTitle("Custom Date Range")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading: Button("Cancel") {
+                    dismiss()
+                },
+                trailing: Button("Apply") {
+                    onApply(startDate, endDate)
+                    dismiss()
+                }
+            )
+        }
     }
 }
 
 struct OverviewView_Previews: PreviewProvider {
     static var previews: some View {
-        OverviewView()
-            .environmentObject(ExpensesViewModel(data: testData))
+        NavigationView {
+            OverviewView()
+                .environmentObject(ExpensesViewModel(data: testData))
+        }
     }
 }

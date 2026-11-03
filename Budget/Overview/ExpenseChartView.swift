@@ -1,8 +1,7 @@
 import Charts
 import SwiftUI
-import Charts
 
-struct ExpenseChartView : View {
+struct ExpenseChartView: View {
     @EnvironmentObject var viewModel: ExpensesViewModel
     
     var body: some View {
@@ -17,11 +16,22 @@ struct ExpenseChartView : View {
                         stacking: .standard
                     )
                     .foregroundStyle(by: .value("Category", expenseDate.category))
-                    
                 }
-                if viewModel.expensesByTime.count > 0 {
-                    LineMark(x: .value("Date", viewModel.expensesByTime[0].date), y: .value("Spent", 0.0))
-                    LineMark(x: .value("Date", viewModel.expensesByTime[viewModel.expensesByTime.count-1].date), y: .value("Spent", 28.504 * Double(Calendar.current.dateComponents([.day], from: viewModel.expensesByTime[0].date, to: viewModel.expensesByTime[viewModel.expensesByTime.count-1].date).day!)))
+                if viewModel.expensesByTime.count > 0 && viewModel.dailyTarget > 0 {
+                    let totalDays = Double(Calendar.current.dateComponents([.day], from: viewModel.expensesByTime[0].date, to: viewModel.expensesByTime[viewModel.expensesByTime.count - 1].date).day ?? 0)
+                    LineMark(
+                        x: .value("Date", viewModel.expensesByTime[0].date),
+                        y: .value("Spent", 0.0)
+                    )
+                    .foregroundStyle(.secondary)
+                    .lineStyle(StrokeStyle(lineWidth: 2, dash: [5, 5]))
+                    
+                    LineMark(
+                        x: .value("Date", viewModel.expensesByTime[viewModel.expensesByTime.count - 1].date),
+                        y: .value("Spent", viewModel.dailyTarget * totalDays)
+                    )
+                    .foregroundStyle(.secondary)
+                    .lineStyle(StrokeStyle(lineWidth: 2, dash: [5, 5]))
                 }
             }
             .padding()

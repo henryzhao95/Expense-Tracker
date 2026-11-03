@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -20,6 +20,8 @@
 		BA60593924A6B43000420C84 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = BA60593824A6B43000420C84 /* SQLite */; };
 		BA60B6B124C1A7E900B6C38D /* CategoryPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA60B6B024C1A7E900B6C38D /* CategoryPickerView.swift */; };
 		BA67376F2568EF74006CCD41 /* BudgetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA67376E2568EF74006CCD41 /* BudgetApp.swift */; };
+		BA8E54BB30995CDA0036BE69 /* BudgetTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E54BA30995CDA0036BE69 /* BudgetTargetView.swift */; };
+		BA8E54BD309960BD0036BE69 /* AddBudgetTargetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA8E54BC309960BD0036BE69 /* AddBudgetTargetView.swift */; };
 		BAC9D67524A60B8B00670C10 /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9D67424A60B8B00670C10 /* HistoryView.swift */; };
 		BAC9D67F24A60F7600670C10 /* ExpenseGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAC9D67E24A60F7600670C10 /* ExpenseGroup.swift */; };
 		BAF3494724A7454600FAC2F4 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF3494624A7454600FAC2F4 /* Formatter.swift */; };
@@ -55,6 +57,8 @@
 		BA60593324A621C500420C84 /* ExpensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewModel.swift; sourceTree = "<group>"; };
 		BA60B6B024C1A7E900B6C38D /* CategoryPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPickerView.swift; sourceTree = "<group>"; };
 		BA67376E2568EF74006CCD41 /* BudgetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetApp.swift; sourceTree = "<group>"; };
+		BA8E54BA30995CDA0036BE69 /* BudgetTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BudgetTargetView.swift; sourceTree = "<group>"; };
+		BA8E54BC309960BD0036BE69 /* AddBudgetTargetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBudgetTargetView.swift; sourceTree = "<group>"; };
 		BAC9D67424A60B8B00670C10 /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
 		BAC9D67E24A60F7600670C10 /* ExpenseGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseGroup.swift; sourceTree = "<group>"; };
 		BAD9B1AE22390AA600362FDE /* Expenses.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Expenses.entitlements; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				BA14159025690C64007F78F3 /* OverviewView.swift */,
 				BA141592256917A3007F78F3 /* CategoryCellView.swift */,
 				BA356B2C256A728C00F7BA6C /* ExpenseChartView.swift */,
+				BA8E54BA30995CDA0036BE69 /* BudgetTargetView.swift */,
+				BA8E54BC309960BD0036BE69 /* AddBudgetTargetView.swift */,
 			);
 			path = Overview;
 			sourceTree = "<group>";
@@ -244,6 +250,8 @@
 				BAF9D7AE24A6B81A00EAA6DA /* ExpenseCellView.swift in Sources */,
 				BA356B2D256A728C00F7BA6C /* ExpenseChartView.swift in Sources */,
 				BA60593424A621C500420C84 /* ExpensesViewModel.swift in Sources */,
+				BA8E54BD309960BD0036BE69 /* AddBudgetTargetView.swift in Sources */,
+				BA8E54BB30995CDA0036BE69 /* BudgetTargetView.swift in Sources */,
 				BAF9D7B924A712ED00EAA6DA /* ExpenseView.swift in Sources */,
 				BAF3494724A7454600FAC2F4 /* Formatter.swift in Sources */,
 				BA60B6B124C1A7E900B6C38D /* CategoryPickerView.swift in Sources */,
@@ -387,7 +395,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C727NR2SU6;
 				INFOPLIST_FILE = Budget/Info.plist;
@@ -409,7 +417,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = C727NR2SU6;
 				INFOPLIST_FILE = Budget/Info.plist;
@@ -455,7 +463,7 @@
 			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.12.2;
+				minimumVersion = 0.17.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

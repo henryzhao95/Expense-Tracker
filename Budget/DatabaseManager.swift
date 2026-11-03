@@ -9,12 +9,12 @@
 import Foundation
 import SQLite
 
-let id = Expression<Int64>("id")
-let date = Expression<String>("date")
-let cost = Expression<Double>("cost")
-let category = Expression<String>("category")
-let desc = Expression<String?>("description")
-let annualTarget = Expression<Double?>("annualTarget")
+let id = SQLite.Expression<Int64>("id")
+let date = SQLite.Expression<String>("date")
+let cost = SQLite.Expression<Double>("cost")
+let category = SQLite.Expression<String>("category")
+let desc = SQLite.Expression<String?>("description")
+let annualTarget = SQLite.Expression<Double?>("annualTarget")
 
 class DatabaseManager {
     
@@ -33,7 +33,7 @@ class DatabaseManager {
         expensesTable = Table(ExpensesTableName)
         
         do {
-            try db.scalar(expensesTable.exists)
+            _ = try db.scalar(expensesTable.exists)
         } catch {
             let newExpensesTable = Table(ExpensesTableName)
             
@@ -51,7 +51,7 @@ class DatabaseManager {
         targetsTable = Table(TargetsTableName)
         
         do {
-            try db.scalar(targetsTable.exists)
+            _ = try db.scalar(targetsTable.exists)
         } catch {
             let newTargetsTable = Table(TargetsTableName)
             
@@ -66,4 +66,3 @@ class DatabaseManager {
         return NSURL(string: "expenses.sqlite3", relativeTo: FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0])!
     }
 }
-

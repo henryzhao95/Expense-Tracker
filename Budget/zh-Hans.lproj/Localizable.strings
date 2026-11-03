@@ -1,5 +1,17 @@
 "Days" = "天";
 "FY" = "财年";
+"FY to Date" = "财年至今";
+"4 Weeks" = "4周";
+"13 Weeks" = "13周";
+"Custom Dates…" = "自定义日期…";
+"Date Range" = "日期范围";
+"Start Date" = "开始日期";
+"End Date" = "结束日期";
+"Custom Date Range" = "自定义日期范围";
+"Apply" = "应用";
+"All Categories" = "所有类别";
+"Category" = "类别";
+"Load More" = "加载更多";
 "New Category" = "新费用类";
 "Cancel" = "取消";
 "Add" = "保存";

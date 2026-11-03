@@ -7,6 +7,8 @@ class ExpensesViewModel: ObservableObject {
     @Published var categories: [String]
     @Published var expensesByCategory: [ExpenseCategory]
     @Published var expensesByTime: [ExpenseDate]
+    @Published private(set) var hasMoreHistory = true
+    @Published private(set) var historyPage = 0
     
     let db = DatabaseManager.sharedInstance.db
     let expensesTable = DatabaseManager.sharedInstance.expensesTable
@@ -26,17 +28,28 @@ class ExpensesViewModel: ObservableObject {
             loadCategories()
         }
     }
+
+    var totalAnnualTarget: Double {
+        do {
+            guard let targetsTable = targetsTable else { return 0.0 }
+            let total = try db?.scalar(targetsTable.select(annualTarget.sum))
+            return total ?? 0.0
+        } catch {
+            return 0.0
+        }
+    }
+
+    var dailyTarget: Double {
+        totalAnnualTarget / 365.0
+    }
     
-    func loadExpensesByTime(fromDate: String) {
-        
-        let today = Formatter.isoDate(Date())
-        
+    func loadExpensesByTime(fromDate: String, toDate: String) {
         var filteredTable: Table?
         
         filteredTable = expensesTable?
             .select(date, category, cost.sum)
             .filter(date >= fromDate)
-            .filter(date <= today)
+            .filter(date <= toDate)
             .group(date, category)
             .order(date.asc)
         
@@ -80,26 +93,37 @@ class ExpensesViewModel: ObservableObject {
         }
     }
     
-    func loadExpensesByCategory(fromDate: String) {
+    func loadExpensesByCategory(fromDate: String, toDate: String) {
         expensesByCategory.removeAll()
-        
-        let today = Formatter.isoDate(Date())
         
         let categoryQuery = expensesTable!
             .join(.leftOuter, targetsTable!, on: targetsTable![category] == expensesTable![category])
             .filter(date >= fromDate)
-            .filter(date <= today)
+            .filter(date <= toDate)
             .select(cost.sum, expensesTable![category], annualTarget)
             .group(expensesTable![category])
             .order(expensesTable![category].asc)
         
-        let categoryResult = try! db?.prepare(categoryQuery)
-        for c in categoryResult! {
-            let name = c[category]
-            let sum = c[cost.sum]
-            let annualTarget: Double? = c[annualTarget]
-            expensesByCategory.append(ExpenseCategory(name: name, sum: sum!, annualTarget: annualTarget))
+        var mappedCategories = [String: ExpenseCategory]()
+        if let categoryResult = try? db?.prepare(categoryQuery) {
+            for c in categoryResult! {
+                let name = c[category]
+                let sum = c[cost.sum] ?? 0.0
+                let annualTarget: Double? = c[annualTarget]
+                mappedCategories[name] = ExpenseCategory(name: name, sum: sum, annualTarget: annualTarget)
+            }
         }
+
+        if let targetResults = try? db?.prepare(targetsTable!.select(category, annualTarget).order(category.asc)) {
+            for row in targetResults! {
+                let name = row[category]
+                if mappedCategories[name] == nil {
+                    mappedCategories[name] = ExpenseCategory(name: name, sum: 0.0, annualTarget: row[annualTarget])
+                }
+            }
+        }
+
+        expensesByCategory = mappedCategories.values.sorted { $0.name < $1.name }
     }
     
     func isLastExpense(_ expense: Expense) -> Bool {
@@ -107,21 +131,84 @@ class ExpensesViewModel: ObservableObject {
     }
     
     func loadCategories() {
+        categories.removeAll()
+        
         do {
-            let results = try db?.prepare((expensesTable?.select(distinct: category).order(date.desc))!)
-            categories.removeAll()
-            for c in results! {
-                categories.append(c[category])
+            var categorySet = Set<String>()
+            
+            if let expenseCategories = try db?.prepare((expensesTable?.select(distinct: category))!) {
+                for c in expenseCategories {
+                    categorySet.insert(c[category])
+                }
             }
-            if categories.count == 0 {
-                categories.append("Miscellaneous")
+            
+            if let targetCategories = try db?.prepare((targetsTable?.select(distinct: category))!) {
+                for c in targetCategories {
+                    categorySet.insert(c[category])
+                }
+            }
+            
+            categories = categorySet.sorted()
+            if categories.isEmpty {
+                categories = ["Miscellaneous"]
             }
         } catch {
             print("Failed to fetch categories: \(error)")
+            categories = ["Miscellaneous"]
+        }
+    }
+
+    func saveAnnualTarget(_ target: Double?, for categoryName: String) {
+        do {
+            guard let targetsTable = targetsTable else { return }
+
+            let row = targetsTable.filter(category == categoryName)
+            if let target = target {
+                let updated = try db?.run(row.update(annualTarget <- target)) ?? 0
+                if updated == 0 {
+                    try db?.run(targetsTable.insert(category <- categoryName, annualTarget <- target))
+                }
+
+                if let index = expensesByCategory.firstIndex(where: { $0.name == categoryName }) {
+                    expensesByCategory[index].annualTarget = target
+                } else {
+                    expensesByCategory.append(ExpenseCategory(name: categoryName, sum: 0.0, annualTarget: target))
+                    expensesByCategory.sort { $0.name < $1.name }
+                }
+
+                if !categories.contains(categoryName) {
+                    categories.append(categoryName)
+                    categories.sort()
+                }
+            } else {
+                try db?.run(row.delete())
+
+                if let index = expensesByCategory.firstIndex(where: { $0.name == categoryName }) {
+                    if expensesByCategory[index].sum == 0.0 {
+                        expensesByCategory.remove(at: index)
+                    } else {
+                        expensesByCategory[index].annualTarget = nil
+                    }
+                }
+
+                if let expensesTable = expensesTable {
+                    let expenseCount = try db?.scalar(expensesTable.filter(category == categoryName).count) ?? 0
+                    if expenseCount == 0 {
+                        categories.removeAll { $0 == categoryName }
+                        if categories.isEmpty {
+                            categories = ["Miscellaneous"]
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Save annual target failed: \(error)")
         }
     }
     
     func loadNextPage() {
+        guard hasMoreHistory else { return }
+
         let nextPage: AnySequence<Row>!
         do {
             try nextPage = db?.prepare((expensesTable?.order(date.desc, id.desc).limit(ExpensesViewModel.pageSize, offset: dbOffset))!)
@@ -130,10 +217,16 @@ class ExpensesViewModel: ObservableObject {
             return
         }
     
+        var loadedCount = 0
         for item in nextPage! {
             let expense = Expense(id: item[id], date: item[date], cost: item[cost], category: item[category], description: item[desc])
             addOrUpdateExpenseInMemory(expense)
+            loadedCount += 1
         }
+        if loadedCount < ExpensesViewModel.pageSize {
+            hasMoreHistory = false
+        }
+        historyPage += 1
     }
     
     func updateExpense(_ expense: Expense) {

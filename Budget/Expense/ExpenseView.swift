@@ -58,6 +58,10 @@ struct ExpenseView: View {
                     })
                 
                 TextField("Description", text: $description)
+                    .submitLabel(.done)
+                    .onSubmit {
+                        UIApplication.shared.endEditing(true)
+                    }
                 
                 // can't directly use formatter: Formatter.currencyFormatter overload https://stackoverflow.com/questions/56799456/swiftui-textfield-with-formatter-not-working
                 TextField("Cost", text: $cost)
@@ -135,11 +139,14 @@ extension UIApplication {
 }
 
 struct ResignKeyboardOnDragGesture: ViewModifier {
-    var gesture = DragGesture().onChanged{_ in
-        UIApplication.shared.endEditing(true)
-    }
     func body(content: Content) -> some View {
-        content.gesture(gesture)
+        content.simultaneousGesture(
+            DragGesture().onEnded { value in
+                if value.translation.height > 30 {
+                    UIApplication.shared.endEditing(true)
+                }
+            }
+        )
     }
 }
 
